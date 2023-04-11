@@ -16,6 +16,13 @@ class TriggerHTTP {
     }
 
     async trigger(req: any, res: any) {
+        res.locals.reqData = {
+            "query": req.query,
+            "params": req.params,
+            "body": req.body,
+            "files": req.files
+        };
+
         for (let i = 0; i < this.cascades.length; i++) {
             for (let needle = 0; needle < this.cascades[i].length; needle++) {
                 let module = this.cascades[i][needle];

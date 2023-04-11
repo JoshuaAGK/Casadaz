@@ -1,11 +1,20 @@
 import * as triggers from "./services/triggers";
 
 const demoCascade = [
+    // {
+    //     moduleType: "ModuleText",
+    //     outputVariableName: "Text",
+    //     parameters: {
+    //         value: "Hello world!"
+    //     }
+    // },
     {
-        moduleType: "ModuleText",
-        outputVariableName: "Text",
+        moduleType: "ModuleGetTriggerData",
+        outputVariableName: "Trigger Data",
         parameters: {
-            value: "Hello world!"
+            dataType: "text",
+            triggerType: "http",
+            range: "query"
         }
     },
     {
@@ -13,7 +22,7 @@ const demoCascade = [
         parameters: {
             inputVariable: {
                 type: "variable",
-                value: "Text"
+                value: "Trigger Data"
             }
         }
     }
