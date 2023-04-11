@@ -18,7 +18,22 @@ class HTTPTrigger {
     }
 
     async trigger(req: any, res: any) {
-        res.send("This is some data.")
+        let testModule = new HTTPResponse(res, "This is some awd");
+        testModule.execute();
+    }
+}
+
+class HTTPResponse {
+    res: any;
+    data: string;
+
+    constructor(res: any, data: string) {
+        this.res = res;
+        this.data = data;
+    }
+
+    execute() {
+        this.res.send(this.data);
     }
 }
 
