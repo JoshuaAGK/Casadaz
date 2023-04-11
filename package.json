@@ -5,5 +5,8 @@
   "main": "app.js",
   "scripts": {},
   "author": "Joshua Kelley",
-  "license": "SEE LICENSE IN LICENSE.md"
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
