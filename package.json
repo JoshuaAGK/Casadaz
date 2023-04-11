@@ -2,7 +2,7 @@
   "name": "casadaz",
   "version": "0.1.0",
   "description": "An easier-to-use API creation platform as a service.",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {},
   "author": "Joshua Kelley",
   "license": "SEE LICENSE IN LICENSE.md",
