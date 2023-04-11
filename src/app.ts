@@ -1,9 +1,5 @@
 import * as triggers from "./services/triggers";
 
-const express = require('express');
-const app = express();
-app.listen(3000);
-
 const demoCascade = [
     {
         moduleType: "ModuleText",
@@ -25,5 +21,3 @@ const demoCascade = [
 
 let testTrigger = new triggers.TriggerHTTP("get", "/test");
 testTrigger.cascades = [demoCascade];
-
-export { app };
