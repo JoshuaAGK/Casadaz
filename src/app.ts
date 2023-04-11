@@ -1,3 +1,5 @@
+import * as modules from "./services/modules";
+
 const express = require('express');
 const app = express();
 app.listen(3000);
@@ -38,47 +40,6 @@ class HTTPTrigger {
     }
 }
 
-interface CascadeComponent {
-    moduleType: string;
-    outputVariableName: string;
-    parameters: any;
-}
-
-class ModuleHTTPResponse {
-    inputVariable: any;
-
-    constructor(module: CascadeComponent) {
-        this.inputVariable = module.parameters.inputVariable;
-    }
-
-    execute(props: any) {
-        let res = props.res;
-        let data;
-
-        if (this.inputVariable.type === "variable") {
-            data = res.locals.variables[this.inputVariable.value];
-        } else {
-            data = this.inputVariable.value;
-        }
-
-        res.send(data);
-    }
-}
-
-class ModuleText {
-    value!: string;
-    outputVariableName!: string;
-
-    constructor(module: CascadeComponent) {
-        this.outputVariableName = module.outputVariableName;
-        this.value = module.parameters.value;
-    }
-
-    execute(props: any) {
-        let res = props.res;
-        res.locals.variables[this.outputVariableName] = this.value;
-    }
-}
 
 const demoCascade = [
     {
@@ -103,6 +64,6 @@ let testTrigger = new HTTPTrigger("get", "/test");
 testTrigger.cascades = [demoCascade];
 
 const moduleDictionary = {
-    "ModuleText": ModuleText,
-    "ModuleHTTPResponse": ModuleHTTPResponse
+    "ModuleText": modules.ModuleText,
+    "ModuleHTTPResponse": modules.ModuleHTTPResponse
 }
