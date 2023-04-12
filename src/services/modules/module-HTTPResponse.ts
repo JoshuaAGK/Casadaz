@@ -1,5 +1,6 @@
-interface ModuleProperties {
-    moduleType: string;
+import { ModuleGenericProperties } from ".";
+
+interface ModuleHTTPResponseProperties extends ModuleGenericProperties {
     parameters: {
         inputVariable: {
             type: "literal" | "variable",
@@ -11,7 +12,7 @@ interface ModuleProperties {
 class ModuleHTTPResponse {
     inputVariable: any;
 
-    constructor(module: ModuleProperties) {
+    constructor(module: ModuleHTTPResponseProperties) {
         this.inputVariable = module.parameters.inputVariable;
     }
 

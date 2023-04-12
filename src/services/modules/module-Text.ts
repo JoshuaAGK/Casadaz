@@ -1,6 +1,6 @@
-interface ModuleProperties {
-    moduleType: string;
-    outputVariableName: string;
+import { ModuleGenericProperties } from ".";
+
+interface ModuleTextProperties extends ModuleGenericProperties {
     parameters: {
         value: string
     };
@@ -10,7 +10,7 @@ class ModuleText {
     value!: string;
     outputVariableName!: string;
 
-    constructor(module: ModuleProperties) {
+    constructor(module: ModuleTextProperties) {
         this.outputVariableName = module.outputVariableName;
         this.value = module.parameters.value;
     }

@@ -1,6 +1,6 @@
-interface ModuleProperties {
-    moduleType: string;
-    outputVariableName: string;
+import { ModuleGenericProperties } from ".";
+
+interface ModuleGetDictionaryDataProperties extends ModuleGenericProperties {
     parameters: {
         inputDictionaryName: string;
         key: string;
@@ -12,7 +12,7 @@ class ModuleGetDictionaryData {
     outputVariableName: string;
     inputDictionaryName: string;
 
-    constructor(module: ModuleProperties) {
+    constructor(module: ModuleGetDictionaryDataProperties) {
         this.key = module.parameters.key;
         this.inputDictionaryName = module.parameters.inputDictionaryName;
         this.outputVariableName = module.outputVariableName;

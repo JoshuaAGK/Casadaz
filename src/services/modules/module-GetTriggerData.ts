@@ -1,6 +1,6 @@
-interface ModuleProperties {
-    moduleType: string;
-    outputVariableName: string;
+import { ModuleGenericProperties } from ".";
+
+interface ModuleGetTriggerDataProperties extends ModuleGenericProperties {
     parameters: parameters;
 }
 
@@ -14,7 +14,7 @@ class ModuleGetTriggerData {
     outputVariableName!: string;
     params!: parameters;
 
-    constructor(module: ModuleProperties) {
+    constructor(module: ModuleGetTriggerDataProperties) {
         this.params = {
             dataType: module.parameters.dataType,
             triggerType: module.parameters.triggerType,
