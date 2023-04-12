@@ -26,15 +26,27 @@ class TriggerHTTP {
         for (let i = 0; i < this.cascades.length; i++) {
             for (let needle = 0; needle < this.cascades[i].length; needle++) {
                 let module = this.cascades[i][needle];
-                let moduleType: string = module.moduleType;
+                let moduleType: string = module.moduleType.toLowerCase();
                 let moduleClass = moduleDictionary[moduleType as keyof typeof moduleDictionary];
                 let currentModule = new moduleClass(module);
 
-                currentModule.execute({
+                // If module execution returns a value, skip to next module with that reference value
+                let moduleReference = currentModule.execute({
                     "cascade": this.cascades[i],
                     "req": req,
                     "res": res
                 });
+
+                // Skip to next module with reference value
+                if (moduleReference) {
+                    for (let j = needle + 1; j < this.cascades[i].length; j++) {
+                        if (this.cascades[i][j].reference === moduleReference) {
+                            // Found it - decrement the needle by 1 so it's executed
+                            needle = j - 1;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

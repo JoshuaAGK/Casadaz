@@ -1,13 +1,6 @@
 import triggers from "./services/triggers";
 
 const demoCascade = [
-    // {
-    //     moduleType: "ModuleText",
-    //     outputVariableName: "Text",
-    //     parameters: {
-    //         value: "Hello world!"
-    //     }
-    // },
     {
         moduleType: "ModuleGetTriggerData",
         outputVariableName: "Trigger Data",
@@ -26,6 +19,32 @@ const demoCascade = [
         }
     },
     {
+        moduleType: "ModuleIf",
+        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd",
+        parameters: {
+            inputVariable1: {
+                type: "variable",
+                value: "Dictionary Data"
+            },
+            comparison: ">",
+            inputVariable2: {
+                type: "literal",
+                value: 100
+            }
+        }
+    },
+    {
+        moduleType: "ModuleText",
+        outputVariableName: "Dictionary Data",
+        parameters: {
+            value: "Hello world!"
+        }
+    },
+    {
+        moduleType: "ModuleEndIf",
+        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
+    },
+    {
         moduleType: "ModuleHTTPResponse",
         parameters: {
             inputVariable: {
@@ -33,7 +52,7 @@ const demoCascade = [
                 value: "Dictionary Data"
             }
         }
-    }
+    },
 ]
 
 let testTrigger = new triggers.TriggerHTTP("get", "/test");
