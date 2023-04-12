@@ -1,5 +1,5 @@
-import moduleDictionary from "../../config/moduleDictionary";
-import { app } from "../../server.js";
+import moduleDictionary from "../modules";
+import { app } from "../../server";
 
 class TriggerHTTP {
     cascades!: Array<any>;

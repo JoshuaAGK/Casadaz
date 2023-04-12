@@ -11,13 +11,15 @@ interface parameters {
 }
 
 class ModuleGetTriggerData {
-    outputVariableName: string;
-    params: parameters;
+    outputVariableName!: string;
+    params!: parameters;
 
     constructor(module: ModuleProperties) {
-        this.params.dataType = module.parameters.dataType;
-        this.params.triggerType = module.parameters.triggerType;
-        this.params.range = module.parameters.range;
+        this.params = {
+            dataType: module.parameters.dataType,
+            triggerType: module.parameters.triggerType,
+            range: module.parameters.range
+        };
         this.outputVariableName = module.outputVariableName;
     }
 

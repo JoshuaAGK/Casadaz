@@ -1,3 +1,7 @@
-import TriggerHTTP from "./trigger-HTTP.js";
+import TriggerHTTP from "./trigger-HTTP";
 
-export { TriggerHTTP }
+const triggerDictionary = {
+    "TriggerHTTP": TriggerHTTP,
+}
+
+export default triggerDictionary;

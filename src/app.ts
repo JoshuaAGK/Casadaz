@@ -1,4 +1,4 @@
-import * as triggers from "./services/triggers";
+import triggers from "./services/triggers";
 
 const demoCascade = [
     // {

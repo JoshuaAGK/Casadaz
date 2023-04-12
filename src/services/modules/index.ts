@@ -1,5 +1,11 @@
-import ModuleText from "./module-Text.js";
-import ModuleHTTPResponse from "./module-HTTPResponse.js";
-import ModuleGetTriggerData from "./module-GetTriggerData.js";
+import ModuleText from "./module-Text";
+import ModuleHTTPResponse from "./module-HTTPResponse";
+import ModuleGetTriggerData from "./module-GetTriggerData";
 
-export { ModuleText, ModuleHTTPResponse, ModuleGetTriggerData }
+const moduleDictionary = {
+    "ModuleText": ModuleText,
+    "ModuleHTTPResponse": ModuleHTTPResponse,
+    "ModuleGetTriggerData": ModuleGetTriggerData
+}
+
+export default moduleDictionary;
