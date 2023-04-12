@@ -1,15 +1,15 @@
 {
-  "name": "casadaz",
-  "version": "0.1.0",
-  "description": "An easier-to-use API creation platform as a service.",
-  "main": "src/app.js",
-  "scripts": {
-    "build": "copyfiles -u 1 \"src/**/*\" -e \"src/**/*.ts\" dist",
-    "postbuild": "tsc"
-  },
-  "author": "Joshua Kelley",
-  "license": "SEE LICENSE IN LICENSE.md",
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+	"name": "casadaz",
+	"version": "0.1.0",
+	"description": "An easier-to-use API creation platform as a service.",
+	"main": "src/app.js",
+	"scripts": {
+		"build": "copyfiles -u 1 \"src/**/*\" -e \"src/**/*.ts\" dist",
+		"postbuild": "tsc"
+	},
+	"author": "Joshua Kelley",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"dependencies": {
+		"express": "^4.18.2"
+	}
 }
