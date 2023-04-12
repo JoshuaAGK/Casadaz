@@ -15,9 +15,7 @@ class ModuleWait extends ModuleGeneric {
     }
 
     async execute() {
-        console.log("Beginning sleep");
         await this.sleep(this.delay);
-        console.log("Ending sleep");
     }
 
     sleep(milliseconds: number) {

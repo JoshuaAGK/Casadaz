@@ -11,11 +11,29 @@ const demoCascade = [
         }
     },
     {
+        moduleType: "Text",
+        outputVariableName: "Text",
+        parameters: {
+            value: "Hello world!"
+        }
+    },
+    {
         moduleType: "GetDictionaryData",
         outputVariableName: "Dictionary Data",
         parameters: {
             inputDictionaryName: "Trigger Data",
             key: "data",
+        }
+    },
+    {
+        moduleType: "Count",
+        outputVariableName: "Count",
+        parameters: {
+            countType: "items",
+            inputVariable: {
+                type: "variable",
+                value: "Trigger Data"
+            }
         }
     },
     {
@@ -34,31 +52,22 @@ const demoCascade = [
         }
     },
     {
-        moduleType: "Text",
-        outputVariableName: "Dictionary Data",
-        parameters: {
-            value: "Hello world!"
-        }
-    },
-    {
-        moduleType: "Count",
-        outputVariableName: "Dictionary Data",
-        parameters: {
-            countType: "items",
-            inputVariable: {
-                type: "variable",
-                value: "Dictionary Data"
-            }
-        }
-    },
-    {
         moduleType: "Wait",
         parameters: {
             value: 500
         }
     },
     {
-        moduleType: "EndIf",
+        moduleType: "HTTPResponse",
+        parameters: {
+            inputVariable: {
+                type: "literal",
+                value: "Too high!"
+            }
+        }
+    },
+    {
+        moduleType: "Else",
         reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
     },
     {
@@ -66,9 +75,13 @@ const demoCascade = [
         parameters: {
             inputVariable: {
                 type: "variable",
-                value: "Dictionary Data"
+                value: "Count"
             }
         }
+    },
+    {
+        moduleType: "EndIf",
+        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
     },
 ]
 

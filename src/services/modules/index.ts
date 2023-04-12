@@ -3,6 +3,7 @@ import ModuleHTTPResponse from "./module-HTTPResponse";
 import ModuleGetTriggerData from "./module-GetTriggerData";
 import ModuleGetDictionaryData from "./module-GetDictionaryData";
 import ModuleIf from "./module-If";
+import ModuleElse from "./module-Else";
 import ModuleEndIf from "./module-EndIf";
 import ModuleCount from "./module-Count";
 import ModuleWait from "./module-Wait";
@@ -13,6 +14,7 @@ const moduleDictionary = {
     "gettriggerdata": ModuleGetTriggerData,
     "getdictionarydata": ModuleGetDictionaryData,
     "if": ModuleIf,
+    "else": ModuleElse,
     "endif": ModuleEndIf,
     "count": ModuleCount,
     "wait": ModuleWait
