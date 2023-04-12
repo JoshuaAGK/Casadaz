@@ -10,10 +10,10 @@ interface ModuleIfProperties extends ModuleGenericProperties {
 }
 
 class ModuleIf extends ModuleGeneric {
-    reference: string;
-    comparison: string;
-    inputVariable1: any;
-    inputVariable2: any;
+    reference!: string;
+    comparison!: string;
+    inputVariable1!: any;
+    inputVariable2!: any;
 
     constructor(module: ModuleIfProperties) {
         super();

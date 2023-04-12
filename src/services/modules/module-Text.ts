@@ -6,11 +6,12 @@ interface ModuleTextProperties extends ModuleGenericProperties {
     };
 }
 
-class ModuleText {
+class ModuleText extends ModuleGeneric {
     value!: string;
     outputVariableName!: string;
 
     constructor(module: ModuleTextProperties) {
+        super();
         this.outputVariableName = module.outputVariableName;
         this.value = module.parameters.value;
     }

@@ -9,10 +9,11 @@ interface ModuleHTTPResponseProperties extends ModuleGenericProperties {
     };
 }
 
-class ModuleHTTPResponse {
-    inputVariable: any;
+class ModuleHTTPResponse extends ModuleGeneric {
+    inputVariable!: any;
 
     constructor(module: ModuleHTTPResponseProperties) {
+        super();
         this.inputVariable = module.parameters.inputVariable;
     }
 
@@ -24,6 +25,10 @@ class ModuleHTTPResponse {
             data = res.locals.variables[this.inputVariable.value];
         } else {
             data = this.inputVariable.value;
+        }
+
+        if (typeof data === "number") {
+            data = String(data);
         }
 
         res.send(data);

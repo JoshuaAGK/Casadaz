@@ -7,12 +7,13 @@ interface ModuleGetDictionaryDataProperties extends ModuleGenericProperties {
     };
 }
 
-class ModuleGetDictionaryData {
-    key: string;
-    outputVariableName: string;
-    inputDictionaryName: string;
+class ModuleGetDictionaryData extends ModuleGeneric {
+    key!: string;
+    outputVariableName!: string;
+    inputDictionaryName!: string;
 
     constructor(module: ModuleGetDictionaryDataProperties) {
+        super();
         this.key = module.parameters.key;
         this.inputDictionaryName = module.parameters.inputDictionaryName;
         this.outputVariableName = module.outputVariableName;

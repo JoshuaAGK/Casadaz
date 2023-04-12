@@ -5,7 +5,7 @@ interface ModuleEndIfProperties extends ModuleGenericProperties {
 }
 
 class ModuleEndIf extends ModuleGeneric {
-    reference: string;
+    reference!: string;
 
     constructor(module: ModuleEndIfProperties) {
         super();

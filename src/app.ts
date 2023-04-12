@@ -41,6 +41,17 @@ const demoCascade = [
         }
     },
     {
+        moduleType: "ModuleCount",
+        outputVariableName: "Dictionary Data",
+        parameters: {
+            countType: "items",
+            inputVariable: {
+                type: "variable",
+                value: "Dictionary Data"
+            }
+        }
+    },
+    {
         moduleType: "ModuleEndIf",
         reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
     },

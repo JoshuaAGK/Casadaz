@@ -10,11 +10,12 @@ interface parameters {
     range: "body" | "query" | "params"
 }
 
-class ModuleGetTriggerData {
+class ModuleGetTriggerData extends ModuleGeneric {
     outputVariableName!: string;
     params!: parameters;
 
     constructor(module: ModuleGetTriggerDataProperties) {
+        super();
         this.params = {
             dataType: module.parameters.dataType,
             triggerType: module.parameters.triggerType,
