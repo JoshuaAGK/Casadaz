@@ -18,11 +18,19 @@ const demoCascade = [
         }
     },
     {
+        moduleType: "ModuleGetDictionaryData",
+        outputVariableName: "Dictionary Data",
+        parameters: {
+            inputDictionaryName: "Trigger Data",
+            key: "data",
+        }
+    },
+    {
         moduleType: "ModuleHTTPResponse",
         parameters: {
             inputVariable: {
                 type: "variable",
-                value: "Trigger Data"
+                value: "Dictionary Data"
             }
         }
     }
