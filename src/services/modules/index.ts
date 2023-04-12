@@ -14,11 +14,4 @@ const moduleDictionary = {
     "moduleendif": ModuleEndIf
 }
 
-interface ModuleGenericProperties {
-    moduleType: string;
-    outputVariableName: string;
-    parameters: {};
-}
-
 export default moduleDictionary;
-export { ModuleGenericProperties };

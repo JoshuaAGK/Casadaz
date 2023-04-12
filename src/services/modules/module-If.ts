@@ -1,4 +1,4 @@
-import { ModuleGenericProperties } from ".";
+import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
 
 interface ModuleIfProperties extends ModuleGenericProperties {
     reference: string;
@@ -9,13 +9,14 @@ interface ModuleIfProperties extends ModuleGenericProperties {
     };
 }
 
-class ModuleIf {
+class ModuleIf extends ModuleGeneric {
     reference: string;
     comparison: string;
     inputVariable1: any;
     inputVariable2: any;
 
     constructor(module: ModuleIfProperties) {
+        super();
         this.comparison = module.parameters.comparison;
         this.inputVariable1 = module.parameters.inputVariable1;
         this.inputVariable2 = module.parameters.inputVariable2;

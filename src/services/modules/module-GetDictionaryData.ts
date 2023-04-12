@@ -1,4 +1,4 @@
-import { ModuleGenericProperties } from ".";
+import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
 
 interface ModuleGetDictionaryDataProperties extends ModuleGenericProperties {
     parameters: {
