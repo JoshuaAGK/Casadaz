@@ -2,7 +2,7 @@ import triggers from "./services/triggers";
 
 const demoCascade = [
     {
-        moduleType: "ModuleGetTriggerData",
+        moduleType: "GetTriggerData",
         outputVariableName: "Trigger Data",
         parameters: {
             dataType: "text",
@@ -11,7 +11,7 @@ const demoCascade = [
         }
     },
     {
-        moduleType: "ModuleGetDictionaryData",
+        moduleType: "GetDictionaryData",
         outputVariableName: "Dictionary Data",
         parameters: {
             inputDictionaryName: "Trigger Data",
@@ -19,7 +19,7 @@ const demoCascade = [
         }
     },
     {
-        moduleType: "ModuleIf",
+        moduleType: "If",
         reference: "3b960a6a-80de-488d-8932-ffc18169fbdd",
         parameters: {
             inputVariable1: {
@@ -34,14 +34,14 @@ const demoCascade = [
         }
     },
     {
-        moduleType: "ModuleText",
+        moduleType: "Text",
         outputVariableName: "Dictionary Data",
         parameters: {
             value: "Hello world!"
         }
     },
     {
-        moduleType: "ModuleCount",
+        moduleType: "Count",
         outputVariableName: "Dictionary Data",
         parameters: {
             countType: "items",
@@ -52,11 +52,17 @@ const demoCascade = [
         }
     },
     {
-        moduleType: "ModuleEndIf",
+        moduleType: "Wait",
+        parameters: {
+            value: 500
+        }
+    },
+    {
+        moduleType: "EndIf",
         reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
     },
     {
-        moduleType: "ModuleHTTPResponse",
+        moduleType: "HTTPResponse",
         parameters: {
             inputVariable: {
                 type: "variable",

@@ -5,15 +5,17 @@ import ModuleGetDictionaryData from "./module-GetDictionaryData";
 import ModuleIf from "./module-If";
 import ModuleEndIf from "./module-EndIf";
 import ModuleCount from "./module-Count";
+import ModuleWait from "./module-Wait";
 
 const moduleDictionary = {
-    "moduletext": ModuleText,
-    "modulehttpresponse": ModuleHTTPResponse,
-    "modulegettriggerdata": ModuleGetTriggerData,
-    "modulegetdictionarydata": ModuleGetDictionaryData,
-    "moduleif": ModuleIf,
-    "moduleendif": ModuleEndIf,
-    "modulecount": ModuleCount
+    "text": ModuleText,
+    "httpresponse": ModuleHTTPResponse,
+    "gettriggerdata": ModuleGetTriggerData,
+    "getdictionarydata": ModuleGetDictionaryData,
+    "if": ModuleIf,
+    "endif": ModuleEndIf,
+    "count": ModuleCount,
+    "wait": ModuleWait
 }
 
 export default moduleDictionary;

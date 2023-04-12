@@ -31,7 +31,7 @@ class TriggerHTTP {
                 let currentModule = new moduleClass(module);
 
                 // If module execution returns a value, skip to next module with that reference value
-                let moduleReference = currentModule.execute({
+                let moduleReference = await currentModule.execute({
                     "cascade": this.cascades[i],
                     "req": req,
                     "res": res
