@@ -3,7 +3,7 @@ const fs = require('fs');
 import ModuleGeneric from "../module";
 import ModuleReadFileProperties from "../../interfaces/modules/interface-ReadFile";
 
-class ModuleFile extends ModuleGeneric {
+class ModuleReadFile extends ModuleGeneric {
     path!: string;
     outputVariableName!: string;
 
@@ -45,4 +45,4 @@ class ModuleFile extends ModuleGeneric {
 
 }
 
-export default ModuleFile;
+export default ModuleReadFile;
