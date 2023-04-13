@@ -10,7 +10,10 @@
 	"author": "Joshua Kelley",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"dependencies": {
+		"adm-zip": "^0.5.10",
+		"body-parser": "^1.20.2",
 		"express": "^4.18.2",
-		"fs": "^0.0.1-security"
+		"fs": "^0.0.1-security",
+		"multer": "^1.4.5-lts.1"
 	}
 }

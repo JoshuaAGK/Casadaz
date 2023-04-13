@@ -1,5 +1,7 @@
 import moduleDictionary from "../modules";
-import { app } from "../../server";
+import app from "../../server";
+
+const multer = require('multer');
 
 class TriggerHTTP {
     cascades!: Array<any>;
@@ -7,8 +9,17 @@ class TriggerHTTP {
     constructor(method: string, path: string) {
         let context = this;
 
-        if (String(method).toUpperCase() === "GET") {
+        if (method.toUpperCase() === "GET") {
             app.get(path, (req: any, res: any) => {
+                res.setHeader("X-Powered-By", "Casadaz");
+                res.locals.variables = {};
+                context.trigger(req, res);
+            })
+        }
+
+        if (method.toUpperCase() === "POST") {
+            app.post(path, multer().any(), (req: any, res: any) => {
+                res.setHeader("X-Powered-By", "Casadaz");
                 res.locals.variables = {};
                 context.trigger(req, res);
             })

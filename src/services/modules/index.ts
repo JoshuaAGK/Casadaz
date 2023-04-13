@@ -8,6 +8,7 @@ import ModuleEndIf from "./module-EndIf";
 import ModuleCount from "./module-Count";
 import ModuleWait from "./module-Wait";
 import ModuleReadFile from "./module-ReadFile";
+import ModuleFilesToZip from "./module-FilesToZip";
 
 const moduleDictionary = {
     "text": ModuleText,
@@ -19,7 +20,8 @@ const moduleDictionary = {
     "endif": ModuleEndIf,
     "count": ModuleCount,
     "wait": ModuleWait,
-    "readfile": ModuleReadFile
+    "readfile": ModuleReadFile,
+    "filestozip": ModuleFilesToZip
 }
 
 export default moduleDictionary;
