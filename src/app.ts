@@ -1,24 +1,11 @@
-import * as dotenv from "dotenv";
-const { MongoClient } = require("mongodb");
 
 import TriggerHTTP from "./services/triggers/trigger-HTTP";
 
-dotenv.config();
+import client from "./config/mongodb";
 
-const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
-const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
-const MONGODB_BASE_URL = process.env.MONGODB_BASE_URL;
-const MONGODB_OPTIONS = process.env.MONGODB_OPTIONS;
-const MONGODB_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_BASE_URL}/${MONGODB_OPTIONS}`
-const client = new MongoClient(MONGODB_URL);
+import { trackedCascades, trackedTriggers } from "./services/trackedServices";
 
-class Cascade {
-    id = "";
-    modules = [];
-}
-
-let trackedTriggers: Array<any> = [];
-let trackedCascades: Array<any> = [];
+import Cascade from "./classes/cascade";
 
 async function main() {
     console.clear();
