@@ -5,6 +5,7 @@ const multer = require('multer');
 
 class TriggerHTTP {
     cascades!: Array<any>;
+    id = "";
 
     constructor(method: string, path: string) {
         let context = this;
@@ -35,8 +36,8 @@ class TriggerHTTP {
         };
 
         for (let i = 0; i < this.cascades.length; i++) {
-            for (let needle = 0; needle < this.cascades[i].length; needle++) {
-                let module = this.cascades[i][needle];
+            for (let needle = 0; needle < this.cascades[i].modules.length; needle++) {
+                let module = this.cascades[i].modules[needle];
                 let moduleType: string = module.moduleType.toLowerCase();
                 let moduleClass = moduleDictionary[moduleType as keyof typeof moduleDictionary];
                 let currentModule = new moduleClass(module);
@@ -50,8 +51,8 @@ class TriggerHTTP {
 
                 // Skip to next module with reference value
                 if (moduleReference) {
-                    for (let j = needle + 1; j < this.cascades[i].length; j++) {
-                        if (this.cascades[i][j].reference === moduleReference) {
+                    for (let j = needle + 1; j < this.cascades[i].modules.length; j++) {
+                        if (this.cascades[i].modules[j].reference === moduleReference) {
                             // Found it - decrement the needle by 1 so it's executed
                             needle = j - 1;
                             break;

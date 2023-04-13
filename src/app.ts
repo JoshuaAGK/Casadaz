@@ -1,227 +1,63 @@
-import triggers from "./services/triggers";
+import * as dotenv from "dotenv";
+const { MongoClient } = require("mongodb");
 
-const cascade1 = [
-    {
-        moduleType: "GetTriggerData",
-        outputVariableName: "Trigger Data",
-        parameters: {
-            dataType: "text",
-            triggerType: "http",
-            range: "query"
-        }
-    },
-    {
-        moduleType: "Text",
-        outputVariableName: "Text",
-        parameters: {
-            value: "Hello world!"
-        }
-    },
-    {
-        moduleType: "GetDictionaryData",
-        outputVariableName: "Dictionary Data",
-        parameters: {
-            inputDictionaryName: "Trigger Data",
-            key: "data",
-        }
-    },
-    {
-        moduleType: "Count",
-        outputVariableName: "Count",
-        parameters: {
-            countType: "items",
-            inputVariable: {
-                type: "variable",
-                value: "Trigger Data"
-            }
-        }
-    },
-    {
-        moduleType: "If",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd",
-        parameters: {
-            inputVariable1: {
-                type: "variable",
-                value: "Dictionary Data"
-            },
-            comparison: ">",
-            inputVariable2: {
-                type: "literal",
-                value: 100
-            }
-        }
-    },
-    {
-        moduleType: "Wait",
-        parameters: {
-            value: 500
-        }
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "literal",
-                value: "Too high!"
-            }
-        }
-    },
-    {
-        moduleType: "Else",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "variable",
-                value: "Count"
-            }
-        }
-    },
-    {
-        moduleType: "EndIf",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
-    },
-]
+import TriggerHTTP from "./services/triggers/trigger-HTTP";
 
-const cascade2 = [
-    {
-        moduleType: "ReadFile",
-        outputVariableName: "fileContents",
-        parameters: {
-            path: "README.md"
-        }
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "variable",
-                value: "fileContents"
-            }
-        }
-    },
-]
+dotenv.config();
 
-const cascade3 = [
-    {
-        moduleType: "FilesToZip",
-        outputVariableName: "Zip",
-        parameters: {
-            files: [
-                {
-                    type: "path",
-                    value: "LICENSE.md"
-                },
-                {
-                    type: "path",
-                    value: "tsconfig.json"
-                },
-                {
-                    type: "path",
-                    value: "nonexistentfile.yeet"
-                },
-                {
-                    type: "literal",
-                    value: "ligmabeans"
-                }
-            ]
-        }
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "variable",
-                value: "Zip"
-            }
-        }
-    },
-]
+const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
+const MONGODB_BASE_URL = process.env.MONGODB_BASE_URL;
+const MONGODB_OPTIONS = process.env.MONGODB_OPTIONS;
+const MONGODB_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_BASE_URL}/${MONGODB_OPTIONS}`
+const client = new MongoClient(MONGODB_URL);
 
-const cascade4 = [
-    {
-        moduleType: "GetTriggerData",
-        outputVariableName: "Trigger Data",
-        parameters: {
-            dataType: "images",
-            triggerType: "http",
-            range: "body"
+class Cascade {
+    id = "";
+    modules = [];
+}
+
+let trackedTriggers: Array<any> = [];
+let trackedCascades: Array<any> = [];
+
+async function main() {
+    console.clear();
+    await client.connect();
+    console.log("Connected successfully to MongoDB.");
+
+    const teamsCollection = client.db("global").collection("teams");
+    const teams = await teamsCollection.find({}).toArray();
+
+    for (const team of teams) {
+        const teamName = team.teamName;
+        const cascadesCollection = client.db(teamName).collection("cascades");
+        const cascades = await cascadesCollection.find({}).toArray();
+
+        const triggersCollection = client.db(teamName).collection("triggers");
+        const triggers = await triggersCollection.find({}).toArray();
+
+        for (let cascade of cascades) {
+            let cascadeObject = new Cascade;
+            cascadeObject.id = cascade._id.toString();
+            cascadeObject.modules = cascade.modules;
+            trackedCascades.push(cascadeObject);
         }
-    },
-    {
-        moduleType: "Count",
-        outputVariableName: "Count",
-        parameters: {
-            countType: "items",
-            inputVariable: {
-                type: "variable",
-                value: "Trigger Data"
+
+        for (let trigger of triggers) {
+            let endpoint: string;
+            if (trigger.endpoint) {
+                endpoint = `/${teamName.toLowerCase()}/${trigger.endpoint}`;
+            } else {
+                endpoint = `/${teamName.toLowerCase()}`;
             }
+            const triggerObject = new TriggerHTTP(trigger.method, endpoint);
+            triggerObject.cascades = trackedCascades.filter(cascade => trigger.cascades.includes(cascade.id));
+            triggerObject.id = trigger._id.toString();
+            trackedTriggers.push(triggerObject);
         }
-    },
-    {
-        moduleType: "If",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd",
-        parameters: {
-            inputVariable1: {
-                type: "variable",
-                value: "Count"
-            },
-            comparison: ">",
-            inputVariable2: {
-                type: "literal",
-                value: 2
-            }
-        }
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "literal",
-                value: "Too high!"
-            }
-        }
-    },
-    {
-        moduleType: "Else",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
-    },
-    {
-        moduleType: "FilesToZip",
-        outputVariableName: "Zip",
-        parameters: {
-            files: [
-                {
-                    type: "variable",
-                    value: "Trigger Data"
-                },
-                {
-                    type: "path",
-                    value: "license.md"
-                }
-            ]
-        }
-    },
-    {
-        moduleType: "HTTPResponse",
-        parameters: {
-            inputVariable: {
-                type: "variable",
-                value: "Zip"
-            }
-        }
-    },
-    {
-        moduleType: "EndIf",
-        reference: "3b960a6a-80de-488d-8932-ffc18169fbdd"
     }
-]
 
-let trigger2 = new triggers.TriggerHTTP("get", "/");
-trigger2.cascades = [cascade2];
+    console.log(`Instantiated ${trackedTriggers.length} triggers and ${trackedCascades.length} cascades from ${teams.length} team(s).`)
+}
 
-let trigger4 = new triggers.TriggerHTTP("post", "/test");
-trigger4.cascades = [cascade4];
+main();
