@@ -1,11 +1,8 @@
 
-import TriggerHTTP from "./services/triggers/trigger-HTTP";
-
-import client from "./config/mongodb";
-
-import { trackedCascades, trackedTriggers } from "./services/trackedServices";
-
+import triggerDictionary from "./services/dictionaries/trigger-dictionary";
+import { trackedCascades, trackedTriggers } from "./services/tracked-services";
 import Cascade from "./classes/cascade";
+import client from "./config/mongodb";
 
 async function main() {
     console.clear();
@@ -37,7 +34,7 @@ async function main() {
             } else {
                 endpoint = `/${teamName.toLowerCase()}`;
             }
-            const triggerObject = new TriggerHTTP(trigger.method, endpoint);
+            const triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, endpoint);
             triggerObject.cascades = trackedCascades.filter(cascade => trigger.cascades.includes(cascade.id));
             triggerObject.id = trigger._id.toString();
             trackedTriggers.push(triggerObject);

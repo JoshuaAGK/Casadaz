@@ -1,4 +1,4 @@
-import TriggerHTTP from "./trigger-HTTP";
+import TriggerHTTP from "../../classes/triggers/trigger-HTTP";
 
 const triggerDictionary = {
     "TriggerHTTP": TriggerHTTP,

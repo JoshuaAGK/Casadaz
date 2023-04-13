@@ -1,13 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleIfProperties extends ModuleGenericProperties {
-    reference: string;
-    parameters: {
-        comparison: string;
-        inputVariable1: any;
-        inputVariable2: any;
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleIfProperties from "../../interfaces/modules/interface-If";
 
 class ModuleIf extends ModuleGeneric {
     reference!: string;

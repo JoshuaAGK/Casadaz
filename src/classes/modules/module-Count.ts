@@ -1,16 +1,8 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleCountProperties extends ModuleGenericProperties {
-    parameters: {
-        countType: countType;
-        inputVariable: {};
-    };
-}
-
-type countType = "length" | "items";
+import ModuleGeneric from "../module";
+import { ModuleCountProperties, CountType } from "../../interfaces/modules/interface-Count";
 
 class ModuleCount extends ModuleGeneric {
-    countType!: countType;
+    countType!: CountType;
     inputVariable!: any;
     outputVariableName!: string;
 

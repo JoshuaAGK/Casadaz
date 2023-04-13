@@ -1,13 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleHTTPResponseProperties extends ModuleGenericProperties {
-    parameters: {
-        inputVariable: {
-            type: "literal" | "variable",
-            value: "string"
-        }
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleHTTPResponseProperties from "../../interfaces/modules/interface-HTTPResponse";
 
 class ModuleHTTPResponse extends ModuleGeneric {
     inputVariable!: any;

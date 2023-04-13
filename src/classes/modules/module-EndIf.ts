@@ -1,8 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleEndIfProperties extends ModuleGenericProperties {
-    reference: string;
-}
+import ModuleGeneric from "../module";
+import ModuleEndIfProperties from "../../interfaces/modules/interface-EndIf";
 
 class ModuleEndIf extends ModuleGeneric {
     reference!: string;

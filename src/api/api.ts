@@ -2,8 +2,8 @@ const express = require('express');
 import { Router } from 'express';
 const router: Router = express.Router();
 import client from "../config/mongodb";
-import TriggerHTTP from "../services/triggers/trigger-HTTP";
-import { trackedCascades, trackedTriggers } from "../services/trackedServices";
+import triggerDictionary from '../services/dictionaries/trigger-dictionary';
+import { trackedCascades, trackedTriggers } from "../services/tracked-services";
 import Cascade from "../classes/cascade";
 
 router.post("/addtrigger", async (req: any, res: any) => {
@@ -29,7 +29,7 @@ router.post("/addtrigger", async (req: any, res: any) => {
     const triggersCollection = client.db(teamName).collection("triggers");
     const insertResult = await triggersCollection.insertOne(trigger);
 
-    let triggerObject = new TriggerHTTP(trigger.method, trigger.endpoint);
+    let triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, trigger.endpoint);
 
     triggerObject.cascades = trackedCascades.filter((cascade: Cascade) => trigger.cascades.includes(cascade.id));
 

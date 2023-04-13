@@ -1,22 +1,11 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
 const AdmZip = require("adm-zip");
 const fs = require('fs');
 
-interface ModuleFilesToZipProperties extends ModuleGenericProperties {
-    outputVariableName: string,
-    parameters: {
-        files: Array<file>;
-    };
-}
-
-type file = {
-    type: "variable" | "path" | "literal",
-    value: string
-}
+import ModuleGeneric from "../module";
+import { ModuleFilesToZipProperties, File } from "../../interfaces/modules/interface-FilesToZip";
 
 class ModuleFilesToZip extends ModuleGeneric {
-    filesList!: Array<file>;
+    filesList!: Array<File>;
     outputVariableName!: string;
 
     constructor(module: ModuleFilesToZipProperties) {

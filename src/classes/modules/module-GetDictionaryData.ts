@@ -1,11 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleGetDictionaryDataProperties extends ModuleGenericProperties {
-    parameters: {
-        inputDictionaryName: string;
-        key: string;
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleGetDictionaryDataProperties from "../../interfaces/modules/interface-GetDictionaryData";
 
 class ModuleGetDictionaryData extends ModuleGeneric {
     key!: string;

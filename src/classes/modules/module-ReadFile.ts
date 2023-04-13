@@ -1,19 +1,13 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
 const fs = require('fs');
 
-interface ModuleFileProperties extends ModuleGenericProperties {
-    outputVariableName: string,
-    parameters: {
-        path: string
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleReadFileProperties from "../../interfaces/modules/interface-ReadFile";
 
 class ModuleFile extends ModuleGeneric {
     path!: string;
     outputVariableName!: string;
 
-    constructor(module: ModuleFileProperties) {
+    constructor(module: ModuleReadFileProperties) {
         super();
         this.path = module.parameters.path;
         this.outputVariableName = module.outputVariableName;

@@ -1,8 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleElseProperties extends ModuleGenericProperties {
-    reference: string;
-}
+import ModuleGeneric from "../module";
+import ModuleElseProperties from "../../interfaces/modules/interface-Else";
 
 class ModuleElse extends ModuleGeneric {
     reference!: string;

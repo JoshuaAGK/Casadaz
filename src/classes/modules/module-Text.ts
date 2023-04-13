@@ -1,10 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleTextProperties extends ModuleGenericProperties {
-    parameters: {
-        value: string
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleTextProperties from "../../interfaces/modules/interface-Text";
 
 class ModuleText extends ModuleGeneric {
     value!: string;

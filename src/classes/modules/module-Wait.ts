@@ -1,10 +1,5 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleWaitProperties extends ModuleGenericProperties {
-    parameters: {
-        value: number
-    };
-}
+import ModuleGeneric from "../module";
+import ModuleWaitProperties from "../../interfaces/modules/interface-Wait";
 
 class ModuleWait extends ModuleGeneric {
     delay!: number;

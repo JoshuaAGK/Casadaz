@@ -1,18 +1,9 @@
-import { ModuleGenericProperties, ModuleGeneric } from "./module-Generic";
-
-interface ModuleGetTriggerDataProperties extends ModuleGenericProperties {
-    parameters: parameters;
-}
-
-interface parameters {
-    dataType: "text" | "images",
-    triggerType: "http",
-    range: "body" | "query" | "params"
-}
+import ModuleGeneric from "../module";
+import { ModuleGetTriggerDataProperties, Parameters } from "../../interfaces/modules/interface-GetTriggerData";
 
 class ModuleGetTriggerData extends ModuleGeneric {
     outputVariableName!: string;
-    params!: parameters;
+    params!: Parameters;
 
     constructor(module: ModuleGetTriggerDataProperties) {
         super();
@@ -37,7 +28,7 @@ class ModuleGetTriggerData extends ModuleGeneric {
         res.locals.variables[this.outputVariableName] = data;
     }
 
-    getTriggerHTTPData(reqData: any, params: parameters) {
+    getTriggerHTTPData(reqData: any, params: Parameters) {
         let rawData: any;
         let data: any;
 

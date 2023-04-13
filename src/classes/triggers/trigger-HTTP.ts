@@ -1,6 +1,5 @@
-import moduleDictionary from "../modules";
+import moduleDictionary from "../../services/dictionaries/module-dictionary";
 import app from "../../server";
-
 const multer = require('multer');
 
 class TriggerHTTP {
