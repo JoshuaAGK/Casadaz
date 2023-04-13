@@ -85,5 +85,24 @@ const demoCascade = [
     },
 ]
 
+const cascade2 = [
+    {
+        moduleType: "ReadFile",
+        outputVariableName: "fileContents",
+        parameters: {
+            path: "README.md"
+        }
+    },
+    {
+        moduleType: "HTTPResponse",
+        parameters: {
+            inputVariable: {
+                type: "variable",
+                value: "fileContents"
+            }
+        }
+    },
+]
+
 let testTrigger = new triggers.TriggerHTTP("get", "/test");
-testTrigger.cascades = [demoCascade];
+testTrigger.cascades = [cascade2];

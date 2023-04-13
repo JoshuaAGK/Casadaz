@@ -7,6 +7,7 @@ import ModuleElse from "./module-Else";
 import ModuleEndIf from "./module-EndIf";
 import ModuleCount from "./module-Count";
 import ModuleWait from "./module-Wait";
+import ModuleReadFile from "./module-ReadFile";
 
 const moduleDictionary = {
     "text": ModuleText,
@@ -17,7 +18,8 @@ const moduleDictionary = {
     "else": ModuleElse,
     "endif": ModuleEndIf,
     "count": ModuleCount,
-    "wait": ModuleWait
+    "wait": ModuleWait,
+    "readfile": ModuleReadFile
 }
 
 export default moduleDictionary;
