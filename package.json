@@ -1,6 +1,6 @@
 {
 	"name": "casadaz",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "An easier-to-use API creation platform as a service.",
 	"main": "src/app.js",
 	"scripts": {
