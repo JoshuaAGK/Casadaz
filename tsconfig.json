@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+	"compilerOptions": {
 		"target": "esnext",
 		"module": "commonjs",
 		"outDir": "dist",
@@ -9,5 +9,5 @@
 		"moduleResolution": "node",
 		"skipLibCheck": true,
 		"removeComments": true
-    }
+	}
 }
