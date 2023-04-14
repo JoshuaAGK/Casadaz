@@ -40,9 +40,4 @@ router.post("/addtrigger", async (req: any, res: any) => {
     res.send("ok");
 })
 
-router.get('/example', (req: any, res: any) => {
-    res.json({ message: 'Example GET request' });
-});
-
-
 export default router;
