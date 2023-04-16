@@ -283,8 +283,14 @@
                 }
             }
 
-            function saveCascade() {
-                console.log("saving cascade");
+            async function saveCascade() {
+                let test = await axios.post(`/updatecascade/{{cascadeID}}`, {
+                    uid: "63f36628992b9f7c647d7d02",
+                    team: "Team1",
+                    cascade: localModel
+                })
+
+                console.log(test);
             }
 
             async function saveModule() {
@@ -308,14 +314,23 @@
                 }
 
                 console.log(localModel);
+            }
 
-                let test = await axios.post(`/updatecascade/{{cascadeID}}`, {
-                    uid: "63f36628992b9f7c647d7d02",
-                    team: "Team1",
-                    cascade: localModel
-                })
+            async function deleteModule() {
+                const moduleID = selectedModule.id;
 
-                console.log(test);
+                const propertiesForm = document.querySelector("#properties-form");
+                const propertiesModuleType = document.querySelector("#properties-module-type");
+                propertiesForm.innerHTML = null;
+                propertiesModuleType.innerHTML = null;
+
+                localModel = localModel.filter((thisModule) => thisModule.id != moduleID);
+
+                selectedModule = {};
+
+                var a = document.querySelector(`li[module-id="${moduleID}"]`);
+                console.log(a);
+                a.remove();
             }
 
 
@@ -324,7 +339,7 @@
     <body>
         <div id="editor-top-bar">
             <p>Cascade {{cascadeID}}</p>
-            <button onclick="save()">Save</button>
+            <button onclick="saveCascade()">Save cascade</button>
         </div>
         <div id="editor-container" class="editor-n">
             <div id="palette-container"></div>
@@ -334,6 +349,7 @@
                 <p id="properties-module-type"></p>
                 <div id="properties-form"></div>
                 <button onclick="saveModule()">Save module</button>
+                <button onclick="deleteModule()">Delete module</button>
             </div>
         </div>
     </body>
