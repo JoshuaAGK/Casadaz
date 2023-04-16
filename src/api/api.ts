@@ -192,4 +192,10 @@ router.post("/updatecascade/:cascadeID", async (req: any, res: any) => {
     res.send("ok");
 })
 
+import { v4 as uuidv4 } from 'uuid';
+
+router.get("/uuid", async (req: any, res: any) => {
+    res.send(uuidv4());
+})
+
 export default router;

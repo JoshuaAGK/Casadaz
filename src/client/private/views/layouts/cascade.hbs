@@ -44,17 +44,12 @@
                 display: none;
             }
 
-            .editor-n {
-
-            }
-
             ul {
                 list-style: none;
                 display: flex;
                 flex-direction: column;
                 align-items: stretch;
                 width: 100%;
-                height: 100%;
                 box-sizing: border-box;
                 padding: 1rem;
                 gap: 1rem;
@@ -94,7 +89,7 @@
 
 
             const moduleContext = {
-                "GetTriggerData": {
+                "gettriggerdata": {
                     fields: [
                         {
                             name: "outputVariableName",
@@ -123,7 +118,7 @@
                         }
                     ]
                 },
-                "Count": {
+                "count": {
                     fields: [
                         {
                             name: "outputVariableName",
@@ -145,9 +140,21 @@
                             element: "input",
                             type: "text"
                         },
-                    ]
+                    ],
+                    format: {
+                        moduleType: "",
+                        outputVariableName: "",
+                        parameters: {
+                            countType: "",
+                            inputVariable: {
+                                type: "",
+                                value: ""
+                            }
+                        },
+                        id: ""
+                    }
                 },
-                "ReadFile": {
+                "readfile": {
                     fields: [
                         {
                             name: "outputVariableName",
@@ -165,7 +172,7 @@
                         },
                     ]
                 },
-                "HTTPResponse": {
+                "httpresponse": {
                     fields: [
                         {
                             name: "value",
@@ -201,7 +208,7 @@
                     }
                 }
 
-                const context = moduleContext[selectedModule.moduleType];
+                const context = moduleContext[selectedModule.moduleType.toLowerCase()];
                 buildPropertiesForm(selectedModule, context.fields);
             }
 
@@ -316,6 +323,56 @@
                 console.log(localModel);
             }
 
+            async function addModule() {
+                let moduleList = document.querySelector("#module-list");
+                let newModule = document.createElement("li");
+                newModule.innerHTML = `<img src="/media/images/module-icons/blank.png"><input id="new-module-type" name="new-module-type" placeholder="Module type"></input><button onclick=addModuleOfType()>Add</button>`;
+                newModule.id = "new-module";
+                moduleList.appendChild(newModule);
+            }
+
+            async function addModuleOfType() {
+                const type = document.querySelector("#new-module-type").value.toLowerCase();
+                let uuid = await axios.get(origin + "/uuid");
+                uuid = uuid.data;
+                let moduleTidyName = await axios.get(origin + `/moduletidyname/${type}`);
+                moduleTidyName = moduleTidyName.data;
+                let moduleImageName = await axios.get(origin + `/moduleimagename/${type}`);
+                moduleImageName = moduleImageName.data;
+
+                
+
+                console.log(type),
+                console.log(moduleContext);
+
+                console.log(moduleContext[type]);
+
+
+                let newModuleData = moduleContext[type].format;
+                newModuleData.id = uuid;
+                newModuleData.moduleType = moduleTidyName;
+
+
+                
+
+                console.table(uuid, moduleTidyName, moduleImageName);
+
+
+                const stuff = `<li onclick="selectModule(this)" module-id="${uuid}">
+                    <img src="/media/images/module-icons/${moduleImageName}"/>
+                    <p>${moduleTidyName}</p>
+                </li>`
+
+                console.log(stuff);
+
+                let newModule = document.querySelector("#new-module");
+                newModule.outerHTML = stuff;
+
+                localModel.push(newModuleData);
+
+                console.log(newModuleData);
+            }
+
             async function deleteModule() {
                 const moduleID = selectedModule.id;
 
@@ -341,7 +398,7 @@
             <p>Cascade {{cascadeID}}</p>
             <button onclick="saveCascade()">Save cascade</button>
         </div>
-        <div id="editor-container" class="editor-n">
+        <div id="editor-container">
             <div id="palette-container"></div>
             <div id="cascade-container"></div>
             <div id="properties-container">

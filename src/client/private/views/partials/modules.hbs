@@ -1,4 +1,4 @@
-<ul>
+<ul id="module-list">
     {{#each cascade.modules}}
     <li onclick="selectModule(this)" module-id="{{this.id}}">
         <img src="/media/images/module-icons/{{getModuleImageName this.moduleType}}"/>
@@ -6,3 +6,4 @@
     </li>
     {{/each}}
 </ul>
+<button onclick="addModule()">Add module</button>

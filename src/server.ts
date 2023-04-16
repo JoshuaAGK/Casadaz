@@ -25,13 +25,10 @@ app.engine('.hbs', handlebars.engine({
             return "Hello world!";
         },
         getModuleTidyName: (moduleName: string) => {
-            if (moduleTidyNames.hasOwnProperty(moduleName.toLowerCase())) {
-                return moduleTidyNames[moduleName.toLowerCase()];
-            }
-            return moduleName;
+            return getModuleTidyName(moduleName);
         },
         getModuleImageName: (moduleName: string) => {
-            return moduleName.toLowerCase() + ".png";
+            return getModuleImageName(moduleName);
         }
     }
 }));
@@ -40,5 +37,24 @@ app.get("/cascade/:cascadeID", async (req: any, res: any) => {
     const cascadeID = req.params.cascadeID;
     res.render("modules", { layout: "cascade", cascadeID: cascadeID });
 });
+
+app.get("/moduletidyname/:modulename", async (req: any, res: any) => {
+    res.send(getModuleTidyName(req.params.modulename));
+});
+
+app.get("/moduleimagename/:modulename", async (req: any, res: any) => {
+    res.send(getModuleImageName(req.params.modulename));
+});
+
+function getModuleTidyName(moduleName: string) {
+    if (moduleTidyNames.hasOwnProperty(moduleName.toLowerCase())) {
+        return moduleTidyNames[moduleName.toLowerCase()];
+    }
+    return moduleName;
+}
+
+function getModuleImageName(moduleName: string) {
+    return moduleName.toLowerCase() + ".png";
+}
 
 export default app;
