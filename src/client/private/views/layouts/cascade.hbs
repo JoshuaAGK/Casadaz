@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <script src="https://unpkg.com/axios@1.0/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/styles/colours.css">
+        <link rel="stylesheet" href="/styles/fonts.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                color: var(--blue-900);
+                font-family: "Noto-Sans";
+            }
+
+            #editor-top-bar {
+                height: 64px;
+                background-color: gray;
+                width: 100vw;
+            }
+
+            #editor-container {
+                width: 100vw;
+                height: calc(100vh - 64px);
+                background-color: purple;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            #cascade-container {
+                width: 600px;
+                height: 100%;
+                background-color: red;
+            }
+
+            #properties-container {
+                width: 400px;
+                height: 100%;
+                background-color: green;
+            }
+
+            #palette-container {
+                display: none;
+            }
+
+            .editor-n {
+
+            }
+
+            ul {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            li {
+                font-size: 18px;
+                min-height: 44px;
+                background-color: var(--gray-200);
+                border: 1px solid var(--gray-300);
+                display: flex;
+                align-items: center;
+                padding: 0.5rem;
+                gap: 0.5rem;
+                box-sizing: border-box;
+                cursor: pointer;
+            }
+
+            li img {
+                max-height: 2rem;
+                max-width: 2rem;
+            }
+
+            #properties-form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        </style>
+
+        <script>
+            let localModel = [];
+            let selectedModule = {};
+            let cascadeVariables = [];
+
+
+
+
+            const moduleContext = {
+                "GetTriggerData": {
+                    fields: [
+                        {
+                            name: "outputVariableName",
+                            label: "Save output as",
+                            placeholder: "Output variable",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "dataType",
+                            label: "Data type",
+                            element: "select",
+                            options: [ "Text", "Images" ]
+                        },
+                        {
+                            name: "triggerType",
+                            label: "Trigger type",
+                            element: "select",
+                            options: [ "HTTP" ]
+                        },
+                        {
+                            name: "range",
+                            label: "Get data from",
+                            element: "select",
+                            options: [ "Body", "Query", "Parameters" ]
+                        }
+                    ]
+                },
+                "Count": {
+                    fields: [
+                        {
+                            name: "outputVariableName",
+                            label: "Save output as",
+                            placeholder: "Output variable",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "countType",
+                            label: "Count type",
+                            element: "select",
+                            options: [ "Length", "Items" ]
+                        },
+                        {
+                            name: "inputVariable",
+                            label: "Input",
+                            placeholder: "Input",
+                            element: "input",
+                            type: "text"
+                        },
+                    ]
+                },
+                "ReadFile": {
+                    fields: [
+                        {
+                            name: "outputVariableName",
+                            label: "Save output as",
+                            placeholder: "Output variable",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "path",
+                            label: "File path",
+                            placeholder: "Path",
+                            element: "input",
+                            type: "text"
+                        },
+                    ]
+                },
+                "HTTPResponse": {
+                    fields: [
+                        {
+                            name: "value",
+                            label: "Input",
+                            placeholder: "Input",
+                            element: "input",
+                            type: "text"
+                        },
+                    ]
+                }
+            }
+
+
+            window.addEventListener('load', async () => {
+                const origin = window.location.origin;
+
+                const cascadeContent = await axios.get(origin + "/cascade-content/{{cascadeID}}");
+                const cascadeModules = await axios.get(origin + "/cascade-modules/{{cascadeID}}");
+                localModel = cascadeModules.data;
+                //console.log(localModel);
+
+                document.querySelector("#cascade-container").innerHTML = cascadeContent.data;
+            });
+
+            function selectModule(that) {
+                const moduleID = that.getAttribute("module-id");
+                selectedModule = undefined;
+
+                for (thisModule of localModel) {
+                    if (thisModule.id == moduleID) {
+                        selectedModule = thisModule;
+                        break;
+                    }
+                }
+
+                const context = moduleContext[selectedModule.moduleType];
+                buildPropertiesForm(selectedModule, context.fields);
+            }
+
+            function buildPropertiesForm(module, context) {
+                //console.log("Module:", module);
+                //console.log("Context:", context);
+
+                const moduleType = module.moduleType;
+                document.querySelector("#properties-module-type").innerHTML = moduleType;
+
+                let newForm = document.createElement("div");
+                newForm.id = "properties-form";
+
+                for (field of context) {
+
+                    let newField = document.createElement(field.element);
+                    //newField.id = field.name;
+                    newField.name = field.name;
+
+
+                    let value = findValue(module, field.name);
+
+
+
+
+                    switch (field.element) {
+                        case "input":
+                            newField.type = field.type;
+                            newField.placeholder = field.placeholder;
+                            if (value) {
+                                newField.setAttribute("value", value);
+                            }
+                            break;
+                        case "select":
+                            for (option of field.options) {
+                                let newOption = document.createElement("option");
+                                newOption.value = option.toLowerCase();
+                                newOption.innerHTML = option;
+                                if (newOption.value == value) {
+                                    newOption.setAttribute("selected", "");
+                                }
+                                newField.appendChild(newOption);
+                            }
+                            break;
+                    }
+
+                    
+                    newForm.appendChild(newField);
+                }
+
+                let oldElement = document.querySelector("#properties-form");
+                oldElement.innerHTML = newForm.innerHTML;
+            }
+
+            function findValue(obj, key) {
+
+                // Loop through each property in the object
+                for (var prop in obj) {
+                    // Check if the property is an object
+                    if (typeof obj[prop] === 'object') {
+                        var result = findValue(obj[prop], key);
+                        if (result) {
+                            return result;
+                        }
+                    } else if (prop === key) {
+                        return obj[prop];
+                    }
+                }
+                return null;
+            }
+
+            function replaceValue(obj, key, newValue) {
+                for (let prop in obj) {
+                    if (prop === key) {
+                        obj[prop] = newValue;
+                    } else if (typeof obj[prop] === "object") {
+                        replaceValue(obj[prop], key, newValue);
+                    }
+                }
+            }
+
+            function saveCascade() {
+                console.log("saving cascade");
+            }
+
+            async function saveModule() {
+                //console.log(selectedModule);
+                const moduleID = selectedModule.id;
+
+                const propertiesForm = document.querySelector("#properties-form");
+                for (child of propertiesForm.children) {
+                    //console.log(child);
+                    //console.log(child.value);
+                    replaceValue(selectedModule, child.getAttribute("name"), child.value);
+                }
+
+                //console.log(selectedModule);
+
+                for (thisModule of localModel) {
+                    if (thisModule.id == moduleID) {
+                        thisModule = selectedModule;
+                        break;
+                    }
+                }
+
+                console.log(localModel);
+
+                let test = await axios.post(`/updatecascade/{{cascadeID}}`, {
+                    uid: "63f36628992b9f7c647d7d02",
+                    team: "Team1",
+                    cascade: localModel
+                })
+
+                console.log(test);
+            }
+
+
+        </script>
+    </head>
+    <body>
+        <div id="editor-top-bar">
+            <p>Cascade {{cascadeID}}</p>
+            <button onclick="save()">Save</button>
+        </div>
+        <div id="editor-container" class="editor-n">
+            <div id="palette-container"></div>
+            <div id="cascade-container"></div>
+            <div id="properties-container">
+                <h2>Properties</h2>
+                <p id="properties-module-type"></p>
+                <div id="properties-form"></div>
+                <button onclick="saveModule()">Save module</button>
+            </div>
+        </div>
+    </body>
+</html>

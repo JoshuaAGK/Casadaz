@@ -1,0 +1,14 @@
+<h2>This is the index view for cascade {{cascadeID}}</h2>
+{{> modules }}
+
+<script type="module">
+    window.addEventListener('load', async () => {
+        const origin = window.location.origin;
+
+        const cascadeData = await axios.get(origin + "/readcascade/{{cascadeID}}");
+        console.log(cascadeData);
+
+        const cascadeData2 = await axios.get(origin + "/cascadetest");
+        console.log(cascadeData2);
+    });
+</script>

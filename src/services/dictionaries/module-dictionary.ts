@@ -10,6 +10,8 @@ import ModuleWait from "../../classes/modules/module-Wait";
 import ModuleReadFile from "../../classes/modules/module-ReadFile";
 import ModuleFilesToZip from "../../classes/modules/module-FilesToZip";
 
+import ModuleTidyNames from "../../interfaces/module-tidy-names";
+
 const moduleDictionary = {
     "text": ModuleText,
     "httpresponse": ModuleHTTPResponse,
@@ -24,4 +26,18 @@ const moduleDictionary = {
     "filestozip": ModuleFilesToZip
 }
 
-export default moduleDictionary;
+const moduleTidyNames: ModuleTidyNames = {
+    "text": "Text",
+    "httpresponse": "HTTP Response",
+    "gettriggerdata": "Get Trigger Data",
+    "getdictionarydata": "Get Dictionary Data",
+    "if": "If",
+    "else": "Else",
+    "endif": "End If",
+    "count": "Count",
+    "wait": "Wait",
+    "readfile": "Read File",
+    "filestozip": "Files to .zip"
+}
+
+export { moduleDictionary, moduleTidyNames };

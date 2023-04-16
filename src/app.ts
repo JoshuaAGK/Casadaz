@@ -6,6 +6,8 @@ import client from "./config/mongodb";
 
 async function main() {
     console.clear();
+    console.log("dirname:", __dirname);
+
     await client.connect();
     console.log("Connected successfully to MongoDB.");
 

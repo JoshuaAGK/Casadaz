@@ -1,4 +1,4 @@
-import moduleDictionary from "../../services/dictionaries/module-dictionary";
+import { moduleDictionary } from "../../services/dictionaries/module-dictionary";
 import app from "../../server";
 const multer = require('multer');
 
