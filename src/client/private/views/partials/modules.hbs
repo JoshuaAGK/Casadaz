@@ -3,6 +3,8 @@
     <li onclick="selectModule(this)" module-id="{{this.id}}">
         <img src="/media/images/module-icons/{{getModuleImageName this.moduleType}}"/>
         <p>{{getModuleTidyName this.moduleType}}</p>
+        <button onclick="moveModule('up', this)">Up</button>
+        <button onclick="moveModule('down', this)">Down</button>
     </li>
     {{/each}}
 </ul>

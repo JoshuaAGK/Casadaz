@@ -390,6 +390,71 @@
                 a.remove();
             }
 
+            async function moveModule(direction, that) {
+
+                event.stopImmediatePropagation();
+
+                const moduleList = document.querySelector("#module-list");
+
+                const moduleID = that.parentNode.getAttribute("module-id");
+
+                for (thisModuley of localModel) {
+                    if (thisModuley.id == moduleID) {
+                        selectedModule = thisModuley;
+                        break;
+                    }
+                }
+                
+                const thisModuleIndex = localModel.indexOf(selectedModule);
+
+                console.log("Index:", thisModuleIndex);
+
+
+                if (direction == "up") {
+                    if (thisModuleIndex > 0) {
+                        const thisModule = localModel.splice(thisModuleIndex, 1)[0];
+                        localModel.splice(thisModuleIndex - 1, 0, thisModule);
+                        const referenceElement = moduleList.children[thisModuleIndex - 1];
+                        moduleList.insertBefore(that.parentNode, referenceElement);
+                    }
+                } else {
+                    if (thisModuleIndex < localModel.length) {
+                        const thisModule = localModel.splice(thisModuleIndex, 1)[0];
+                        localModel.splice(thisModuleIndex + 1, 0, thisModule);
+                        const referenceElement = moduleList.children[thisModuleIndex + 2];
+                        moduleList.insertBefore(that.parentNode, referenceElement);
+                    }
+                }
+
+                console.log(localModel);
+            }
+
+
+
+
+            async function buildModuleListFromModel(model) {
+                // Bad UX, makes the list flicker
+                const moduleList = document.querySelector("#module-list");
+                moduleList.innerHTML = null;
+
+                for (thisModule of model) {
+
+                    // todo: this is going to make a ton of requests, sort this out locally
+
+                    let moduleTidyName = await axios.get(origin + `/moduletidyname/${thisModule.moduleType}`);
+                    moduleTidyName = moduleTidyName.data;
+                    let moduleImageName = await axios.get(origin + `/moduleimagename/${thisModule.moduleType}`);
+                    moduleImageName = moduleImageName.data;
+
+                    const stuff = `<li onclick="selectModule(this)" module-id="${thisModule.id}">
+                        <img src="/media/images/module-icons/${moduleImageName}"/>
+                        <p>${moduleTidyName}</p>
+                    </li>`
+
+                    moduleList.innerHTML += stuff;
+                }
+            }
+
 
         </script>
     </head>
