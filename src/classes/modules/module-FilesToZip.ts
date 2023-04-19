@@ -10,7 +10,7 @@ class ModuleFilesToZip extends ModuleGeneric {
 
     constructor(module: ModuleFilesToZipProperties) {
         super();
-        this.filesList = module.files;
+        this.filesList = module.filesList;
         this.outputVariableName = module.outputVariableName;
     }
 
@@ -27,7 +27,7 @@ class ModuleFilesToZip extends ModuleGeneric {
             } else if (file.charAt(0) === "@") {
                 let fileContents: string;
                 try {
-                    fileContents = await this.readFile(file.substring(1));
+                    fileContents = await this.readFile(`filestore/${this.teamName}/${file.substring(1)}`);
                     fileData = {
                         originalname: file.substring(1),
                         buffer: Buffer.from(fileContents)

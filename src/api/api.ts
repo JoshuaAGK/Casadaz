@@ -31,7 +31,7 @@ router.post("/addtrigger", async (req: any, res: any) => {
     const triggersCollection = client.db(teamName).collection("triggers");
     const insertResult = await triggersCollection.insertOne(trigger);
 
-    let triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, trigger.endpoint);
+    let triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, trigger.endpoint, teamName);
 
     triggerObject.cascades = trackedCascades.filter((cascade: Cascade) => trigger.cascades.includes(cascade.id));
 

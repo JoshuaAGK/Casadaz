@@ -5,9 +5,12 @@ const multer = require('multer');
 class TriggerHTTP {
     cascades!: Array<any>;
     id = "";
+    teamName = "";
 
-    constructor(method: string, path: string) {
+    constructor(method: string, path: string, teamName: string) {
         let context = this;
+
+        this.teamName = teamName;
 
         if (method.toUpperCase() === "GET") {
             app.get(path, (req: any, res: any) => {
@@ -40,6 +43,7 @@ class TriggerHTTP {
                 let moduleType: string = module.moduleType.toLowerCase();
                 let moduleClass = moduleDictionary[moduleType as keyof typeof moduleDictionary];
                 let currentModule = new moduleClass(module);
+                currentModule.teamName = this.teamName;
 
                 // If module execution returns a value, skip to next module with that reference value
                 let moduleReference = await currentModule.execute({

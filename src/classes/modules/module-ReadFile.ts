@@ -18,7 +18,7 @@ class ModuleReadFile extends ModuleGeneric {
         let fileContents: string;
         
         try {
-            fileContents = await this.readFile(this.path);
+            fileContents = await this.readFile(`filestore/${this.teamName}/${this.path}`);
         } catch (err: any) {
             switch (err.errno) {
                 case -4058:

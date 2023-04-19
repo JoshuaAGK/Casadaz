@@ -36,7 +36,7 @@ async function main() {
             } else {
                 endpoint = `/${teamName.toLowerCase()}`;
             }
-            const triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, endpoint);
+            const triggerObject = new triggerDictionary.TriggerHTTP(trigger.method, endpoint, teamName);
             triggerObject.cascades = trackedCascades.filter(cascade => trigger.cascades.includes(cascade.id));
             triggerObject.id = trigger._id.toString();
             trackedTriggers.push(triggerObject);
