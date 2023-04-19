@@ -8,8 +8,8 @@ class ModuleCount extends ModuleGeneric {
 
     constructor(module: ModuleCountProperties) {
         super();
-        this.countType = module.parameters.countType;
-        this.inputVariable = module.parameters.inputVariable;
+        this.countType = module.countType;
+        this.inputVariable = module.inputVariable;
         this.outputVariableName = module.outputVariableName;
     }
 
@@ -18,10 +18,10 @@ class ModuleCount extends ModuleGeneric {
         let variable: any;
         let count = 0;
 
-        if (this.inputVariable.type === "variable") {
-            variable = res.locals.variables[this.inputVariable.value];
+        if (this.inputVariable.charAt(0) === "$") {
+            variable = res.locals.variables[this.inputVariable.substring(1)];
         } else {
-            variable = this.inputVariable.value;
+            variable = this.inputVariable;
         }
 
         if (this.countType === "length") {

@@ -6,17 +6,17 @@ class ModuleHTTPResponse extends ModuleGeneric {
 
     constructor(module: ModuleHTTPResponseProperties) {
         super();
-        this.inputVariable = module.parameters.inputVariable;
+        this.inputVariable = module.inputVariable;
     }
 
     execute(props: any) {
         let res = props.res;
         let data;
 
-        if (this.inputVariable.type === "variable") {
-            data = res.locals.variables[this.inputVariable.value];
+        if (this.inputVariable.charAt(0) === "$") {
+            data = res.locals.variables[this.inputVariable.substring(1)];
         } else {
-            data = this.inputVariable.value;
+            data = this.inputVariable;
         }
 
         if (typeof data === "number") {

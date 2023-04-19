@@ -1,9 +1,7 @@
 import ModuleGenericProperties from "../module";
 
 interface ModuleWaitProperties extends ModuleGenericProperties {
-    parameters: {
-        value: number
-    };
+    value: number
 }
 
 export default ModuleWaitProperties;

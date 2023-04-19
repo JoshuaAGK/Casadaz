@@ -1,12 +1,7 @@
 import ModuleGenericProperties from "../module";
 
 interface ModuleHTTPResponseProperties extends ModuleGenericProperties {
-    parameters: {
-        inputVariable: {
-            type: "literal" | "variable",
-            value: "string"
-        }
-    };
+    inputVariable: string;
 }
 
 export default ModuleHTTPResponseProperties;

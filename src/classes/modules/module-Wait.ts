@@ -6,7 +6,7 @@ class ModuleWait extends ModuleGeneric {
 
     constructor(module: ModuleWaitProperties) {
         super();
-        this.delay = module.parameters.value;
+        this.delay = module.value;
     }
 
     async execute() {

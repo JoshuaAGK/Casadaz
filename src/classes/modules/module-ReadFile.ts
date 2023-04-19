@@ -9,7 +9,7 @@ class ModuleReadFile extends ModuleGeneric {
 
     constructor(module: ModuleReadFileProperties) {
         super();
-        this.path = module.parameters.path;
+        this.path = module.path;
         this.outputVariableName = module.outputVariableName;
     }
 

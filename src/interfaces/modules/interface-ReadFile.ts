@@ -2,9 +2,7 @@ import ModuleGenericProperties from "../module";
 
 interface ModuleReadFileProperties extends ModuleGenericProperties {
     outputVariableName: string,
-    parameters: {
-        path: string
-    };
+    path: string
 }
 
 export default ModuleReadFileProperties;

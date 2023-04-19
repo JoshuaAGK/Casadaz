@@ -2,14 +2,12 @@ import ModuleGenericProperties from "../module";
 
 interface ModuleFilesToZipProperties extends ModuleGenericProperties {
     outputVariableName: string,
-    parameters: {
-        files: Array<File>;
-    };
+    files: Array<string>;
 }
 
-type File = {
-    type: "variable" | "path" | "literal",
-    value: string
-}
+// type File = {
+//     type: "variable" | "path" | "literal",
+//     value: string
+// }
 
-export { ModuleFilesToZipProperties, File };
+export { ModuleFilesToZipProperties };

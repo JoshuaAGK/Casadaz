@@ -8,8 +8,8 @@ class ModuleGetDictionaryData extends ModuleGeneric {
 
     constructor(module: ModuleGetDictionaryDataProperties) {
         super();
-        this.key = module.parameters.key;
-        this.inputDictionaryName = module.parameters.inputDictionaryName;
+        this.key = module.key;
+        this.inputDictionaryName = module.inputDictionaryName;
         this.outputVariableName = module.outputVariableName;
     }
 

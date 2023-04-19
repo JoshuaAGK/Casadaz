@@ -2,15 +2,15 @@ const AdmZip = require("adm-zip");
 const fs = require('fs');
 
 import ModuleGeneric from "../module";
-import { ModuleFilesToZipProperties, File } from "../../interfaces/modules/interface-FilesToZip";
+import { ModuleFilesToZipProperties } from "../../interfaces/modules/interface-FilesToZip";
 
 class ModuleFilesToZip extends ModuleGeneric {
-    filesList!: Array<File>;
+    filesList!: Array<string>;
     outputVariableName!: string;
 
     constructor(module: ModuleFilesToZipProperties) {
         super();
-        this.filesList = module.parameters.files;
+        this.filesList = module.files;
         this.outputVariableName = module.outputVariableName;
     }
 
@@ -22,19 +22,14 @@ class ModuleFilesToZip extends ModuleGeneric {
         for (const file of this.filesList) {
             let fileData: any;
 
-            if (file.type === "variable") {
-                fileData = res.locals.variables[file.value];
-            } else if (file.type === "literal") {
-                fileData = {
-                    originalname: `${file.value}.txt`,
-                    buffer: Buffer.from(file.value)
-                }
-            } else if (file.type === "path") {
+            if (file.charAt(0) === "$") {
+                fileData = res.locals.variables[file.substring(1)];
+            } else if (file.charAt(0) === "@") {
                 let fileContents: string;
                 try {
-                    fileContents = await this.readFile(file.value);
+                    fileContents = await this.readFile(file.substring(1));
                     fileData = {
-                        originalname: file.value,
+                        originalname: file.substring(1),
                         buffer: Buffer.from(fileContents)
                     }
                 } catch (err: any) {
@@ -42,8 +37,8 @@ class ModuleFilesToZip extends ModuleGeneric {
                 }
             } else {
                 fileData = {
-                    originalname: `${file.value}.txt`,
-                    buffer: Buffer.from(file.value)
+                    originalname: `${file}.txt`,
+                    buffer: Buffer.from(file)
                 }
             }
 

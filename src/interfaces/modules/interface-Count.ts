@@ -1,10 +1,8 @@
 import ModuleGenericProperties from "../module";
 
 interface ModuleCountProperties extends ModuleGenericProperties {
-    parameters: {
-        countType: CountType;
-        inputVariable: {};
-    };
+    countType: CountType,
+    inputVariable: string
 }
 
 type CountType = "length" | "items";

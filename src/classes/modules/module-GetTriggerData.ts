@@ -8,9 +8,9 @@ class ModuleGetTriggerData extends ModuleGeneric {
     constructor(module: ModuleGetTriggerDataProperties) {
         super();
         this.params = {
-            dataType: module.parameters.dataType,
-            triggerType: module.parameters.triggerType,
-            range: module.parameters.range
+            dataType: module.dataType,
+            triggerType: module.triggerType,
+            range: module.range
         };
         this.outputVariableName = module.outputVariableName;
     }

@@ -1,10 +1,12 @@
 import ModuleGenericProperties from "../module";
 
 interface ModuleGetTriggerDataProperties extends ModuleGenericProperties {
-    parameters: Parameters;
+    dataType: "text" | "images",
+    triggerType: "http",
+    range: "body" | "query" | "params"
 }
 
-interface Parameters {
+type Parameters = {
     dataType: "text" | "images",
     triggerType: "http",
     range: "body" | "query" | "params"

@@ -8,7 +8,7 @@ class ModuleText extends ModuleGeneric {
     constructor(module: ModuleTextProperties) {
         super();
         this.outputVariableName = module.outputVariableName;
-        this.value = module.parameters.value;
+        this.value = module.value;
     }
 
     execute(props: any) {

@@ -1,9 +1,7 @@
 import ModuleGenericProperties from "../module";
 
 interface ModuleTextProperties extends ModuleGenericProperties {
-    parameters: {
-        value: string
-    };
+    value: string
 }
 
 export default ModuleTextProperties;
