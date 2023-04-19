@@ -144,13 +144,8 @@
                     format: {
                         moduleType: "",
                         outputVariableName: "",
-                        parameters: {
-                            countType: "",
-                            inputVariable: {
-                                type: "",
-                                value: ""
-                            }
-                        },
+                        countType: "",
+                        inputVariable: "",
                         id: ""
                     }
                 },
@@ -169,19 +164,107 @@
                             placeholder: "Path",
                             element: "input",
                             type: "text"
-                        },
+                        }
                     ]
                 },
                 "httpresponse": {
                     fields: [
                         {
-                            name: "value",
+                            name: "inputVariable",
                             label: "Input",
                             placeholder: "Input",
                             element: "input",
                             type: "text"
-                        },
+                        }
                     ]
+                },
+                "if": {
+                    fields: [
+                        {
+                            name: "reference",
+                            label: "Reference",
+                            placeholder: "Reference",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "inputVariable1",
+                            label: "Input 1",
+                            placeholder: "Input 1",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "comparison",
+                            label: "Comparison",
+                            placeholder: "Comparison",
+                            element: "select",
+                            options: [ ">", ">=", "<", "<=", "==", "!=" ]
+                        },
+                        {
+                            name: "inputVariable2",
+                            label: "Input 2",
+                            placeholder: "Input 2",
+                            element: "input",
+                            type: "text"
+                        }
+                    ],
+                    format: {
+                        reference: "",
+                        inputVariable1: "",
+                        comparison: "",
+                        inputVariable2: ""
+                    }
+                },
+                "else": {
+                    fields: [
+                        {
+                            name: "reference",
+                            label: "Reference",
+                            placeholder: "Reference",
+                            element: "input",
+                            type: "text"
+                        }
+                    ],
+                    format: {
+                        reference: ""
+                    }
+                },
+                "endif": {
+                    fields: [
+                        {
+                            name: "reference",
+                            label: "Reference",
+                            placeholder: "Reference",
+                            element: "input",
+                            type: "text"
+                        }
+                    ],
+                    format: {
+                        reference: ""
+                    }
+                },
+                "filestozip": {
+                    fields: [
+                        {
+                            name: "outputVariableName",
+                            label: "Save output as",
+                            placeholder: "Output variable",
+                            element: "input",
+                            type: "text"
+                        },
+                        {
+                            name: "files",
+                            label: "Files",
+                            placeholder: "Files",
+                            element: "input",
+                            type: "text"
+                        }
+                    ],
+                    format: {
+                        outputVariableName: "",
+                        files: ""
+                    }
                 }
             }
 
@@ -264,6 +347,7 @@
             }
 
             function findValue(obj, key) {
+                // todo: this is no longer necessary since new structure
 
                 // Loop through each property in the object
                 for (var prop in obj) {
