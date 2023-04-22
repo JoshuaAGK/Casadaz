@@ -51,7 +51,7 @@ async function recycleTeam(teamName: string) {
 
     // Delete deleted cascades
     updatedCascades = trackedCascades.filter(cascade => (updatedCascades.findIndex(_cascade => _cascade.id == cascade.id) > -1) || cascade.teamName != teamName);
-    trackedCascades.splice(0, updatedCascades.length, ...updatedCascades);
+    trackedCascades.splice(0, trackedCascades.length, ...updatedCascades);
 
     // Upsert new / updated triggers
     for (const trigger of updatedTriggers) {
