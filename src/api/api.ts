@@ -204,6 +204,7 @@ router.use("/recycle/cascade/:cascadeID", async (req: any, res: any) => {
     const recycle = await recycleCascade(cascadeID);
 
     if (recycle) {
+        console.log(`Recycled cascade ${cascadeID}`);
         res.send(`Recycled cascade ${cascadeID}`);
     } else {
         res.send(`Unable to recycle cascade ${cascadeID}`);
@@ -215,6 +216,7 @@ router.use("/recycle/trigger/:triggerID", async (req: any, res: any) => {
     const recycle = await recycleTrigger(triggerID);
 
     if (recycle) {
+        console.log(`Recycled trigger ${triggerID}`);
         res.send(`Recycled trigger ${triggerID}`);
     } else {
         res.send(`Unable to recycle trigger ${triggerID}`);
@@ -224,6 +226,7 @@ router.use("/recycle/trigger/:triggerID", async (req: any, res: any) => {
 router.use("/recycle/team/:teamName", async (req: any, res: any) => {
     const teamName = req.params.teamName
     const recycle = await recycleTeam(teamName);
+    console.log(`Recycled team ${teamName}`);
     res.send(`Recycled team ${teamName}`);
 })
 

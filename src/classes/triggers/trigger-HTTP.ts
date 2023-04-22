@@ -17,6 +17,7 @@ class TriggerHTTP {
                 res.setHeader("X-Powered-By", "Casadaz");
                 res.locals.variables = {};
                 context.trigger(req, res);
+                console.log(`Executed trigger ${this.id}`);
             })
         }
 
@@ -25,6 +26,7 @@ class TriggerHTTP {
                 res.setHeader("X-Powered-By", "Casadaz");
                 res.locals.variables = {};
                 context.trigger(req, res);
+                console.log(`Executed trigger ${this.id}`);
             })
         }
     }
