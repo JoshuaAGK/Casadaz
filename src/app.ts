@@ -2,11 +2,10 @@
 import triggerDictionary from "./services/dictionaries/trigger-dictionary";
 import { trackedCascades, trackedTriggers } from "./services/tracked-services";
 import Cascade from "./classes/cascade";
-import client from "./config/mongodb";
+import { client } from "./config/mongodb";
 
 async function main() {
     console.clear();
-    console.log("dirname:", __dirname);
 
     await client.connect();
     console.log("Connected successfully to MongoDB.");
@@ -16,6 +15,7 @@ async function main() {
 
     for (const team of teams) {
         const teamName = team.teamName;
+
         const cascadesCollection = client.db(teamName).collection("cascades");
         const cascades = await cascadesCollection.find({}).toArray();
 
@@ -24,6 +24,7 @@ async function main() {
 
         for (let cascade of cascades) {
             let cascadeObject = new Cascade;
+            cascadeObject.teamName = teamName;
             cascadeObject.id = cascade._id.toString();
             cascadeObject.modules = cascade.modules;
             trackedCascades.push(cascadeObject);

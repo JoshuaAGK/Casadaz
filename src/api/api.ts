@@ -1,12 +1,16 @@
 const express = require('express');
 import { Router } from 'express';
 const router: Router = express.Router();
-import client from "../config/mongodb";
+import { client } from "../config/mongodb";
 import triggerDictionary from '../services/dictionaries/trigger-dictionary';
 import { moduleDictionary } from '../services/dictionaries/module-dictionary';
 import { trackedCascades, trackedTriggers } from "../services/tracked-services";
 import Cascade from "../classes/cascade";
 import { ObjectId } from 'mongodb';
+import { v4 as uuidv4 } from 'uuid';
+import recycleCascade from '../services/recycle-cascade';
+import recycleTrigger from '../services/recycle-trigger';
+import recycleTeam from '../services/recycle-team';
 
 router.post("/addtrigger", async (req: any, res: any) => {
     console.log("Trying to add trigger");
@@ -75,11 +79,11 @@ router.post("/addcascade", async (req: any, res: any) => {
 })
 
 router.get("/readcascade/:cascadeID", async (req: any, res: any) => {
+    // todo: make this method reusable
     const databases = await client.db().admin().listDatabases();
     const globalDatabases = ["global", "admin", "local"];
     const teamDatabases = databases.databases.filter((database: any) => !globalDatabases.includes(database.name.toLowerCase())).map((database: any) => database.name);
 
-    console.log(teamDatabases);
 
     let cascade: Cascade | undefined;
   
@@ -105,7 +109,6 @@ router.get("/cascade-content/:cascadeID", async (req: any, res: any) => {
     const globalDatabases = ["global", "admin", "local"];
     const teamDatabases = databases.databases.filter((database: any) => !globalDatabases.includes(database.name.toLowerCase())).map((database: any) => database.name);
 
-    console.log(teamDatabases);
 
     let cascade: Cascade | undefined;
   
@@ -131,7 +134,6 @@ router.get("/cascade-modules/:cascadeID", async (req: any, res: any) => {
     const globalDatabases = ["global", "admin", "local"];
     const teamDatabases = databases.databases.filter((database: any) => !globalDatabases.includes(database.name.toLowerCase())).map((database: any) => database.name);
 
-    console.log(teamDatabases);
 
     let cascade: Cascade | undefined;
   
@@ -192,10 +194,38 @@ router.post("/updatecascade/:cascadeID", async (req: any, res: any) => {
     res.send("ok");
 })
 
-import { v4 as uuidv4 } from 'uuid';
-
 router.get("/uuid", async (req: any, res: any) => {
     res.send(uuidv4());
 })
+
+
+router.use("/recycle/cascade/:cascadeID", async (req: any, res: any) => {
+    const cascadeID = req.params.cascadeID
+    const recycle = await recycleCascade(cascadeID);
+
+    if (recycle) {
+        res.send(`Recycled cascade ${cascadeID}`);
+    } else {
+        res.send(`Unable to recycle cascade ${cascadeID}`);
+    }
+})
+
+router.use("/recycle/trigger/:triggerID", async (req: any, res: any) => {
+    const triggerID = req.params.triggerID
+    const recycle = await recycleTrigger(triggerID);
+
+    if (recycle) {
+        res.send(`Recycled trigger ${triggerID}`);
+    } else {
+        res.send(`Unable to recycle trigger ${triggerID}`);
+    }
+})
+
+router.use("/recycle/team/:teamName", async (req: any, res: any) => {
+    const teamName = req.params.teamName
+    const recycle = await recycleTeam(teamName);
+    res.send(`Recycled team ${teamName}`);
+})
+
 
 export default router;

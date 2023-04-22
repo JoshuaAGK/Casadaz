@@ -10,4 +10,4 @@ const MONGODB_OPTIONS = process.env.MONGODB_OPTIONS;
 const MONGODB_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_BASE_URL}/${MONGODB_OPTIONS}`
 const client = new MongoClient(MONGODB_URL);
 
-export default client;
+export { client, MONGODB_URL as MongoURL };

@@ -1,5 +1,6 @@
 class Cascade {
     id = "";
+    teamName = "";
     modules = [];
 }
 
