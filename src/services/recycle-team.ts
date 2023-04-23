@@ -38,6 +38,16 @@ async function recycleTeam(teamName: string) {
         updatedTriggers.push(triggerObject);
     }
 
+    // Delete deleted cascades
+    for (const [index, cascade] of trackedCascades.entries()) {
+        if (trackedCascades[index].teamName === teamName) {
+            const cascadeIndex = updatedCascades.findIndex(_cascade => _cascade.id === trackedCascades[index].id);
+            if (cascadeIndex === -1) {
+                trackedCascades.splice(index, 1);
+            }
+        }
+    }
+
     // Upsert new / updated cascades
     for (const cascade of updatedCascades) {
         const index = trackedCascades.findIndex(_cascade => _cascade.id == cascade.id);
@@ -49,9 +59,16 @@ async function recycleTeam(teamName: string) {
         }
     }
 
-    // Delete deleted cascades
-    updatedCascades = trackedCascades.filter(cascade => (updatedCascades.findIndex(_cascade => _cascade.id == cascade.id) > -1) || cascade.teamName != teamName);
-    trackedCascades.splice(0, trackedCascades.length, ...updatedCascades);
+    // Delete deleted triggers
+    for (const [index, trigger] of trackedTriggers.entries()) {
+        if (trackedTriggers[index].teamName === teamName) {
+            const triggerIndex = updatedTriggers.findIndex(_trigger => _trigger.id === trackedTriggers[index].id);
+            if (triggerIndex === -1) {
+                trackedTriggers[index].deleteRoute();
+                trackedTriggers.splice(index, 1);
+            }
+        }
+    }
 
     // Upsert new / updated triggers
     for (const trigger of updatedTriggers) {
@@ -63,10 +80,6 @@ async function recycleTeam(teamName: string) {
             trackedTriggers.push(trigger);
         }
     }
-
-    // Delete deleted triggers
-    updatedTriggers = trackedTriggers.filter(trigger => (updatedTriggers.findIndex(_trigger => _trigger.id == trigger.id) > -1) || trigger.teamName != teamName);
-    trackedTriggers.splice(0, trackedTriggers.length, ...updatedTriggers);
 
     // Recycling team should always return true because team may have been intentionally deleted
     return true;

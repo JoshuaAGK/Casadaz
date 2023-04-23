@@ -45,6 +45,7 @@ async function recycleCascade(cascadeID: string) {
         if (index > -1) {
             // Remove cascade
             trackedCascades.splice(index, 1);
+            return true;
         }
     }
 

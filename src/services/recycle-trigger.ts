@@ -18,9 +18,16 @@ async function recycleTrigger(triggerID: string) {
             const triggersCollection = await client.db(teamDatabase).collection("triggers");
             const foundTrigger = await triggersCollection.findOne({ _id: new ObjectId(triggerID) });
             if (foundTrigger) {
+                let endpoint: string;
+                if (foundTrigger.endpoint) {
+                    endpoint = `/${teamDatabase.toLowerCase()}/${foundTrigger.endpoint}`;
+                } else {
+                    endpoint = `/${teamDatabase.toLowerCase()}`;
+                }
+
+                trigger = new triggerDictionary.TriggerHTTP(foundTrigger.method, endpoint, teamDatabase);
                 trigger.id = String(foundTrigger._id);
                 trigger.cascades = trackedCascades.filter(cascade => foundTrigger.cascades.includes(cascade.id));
-                trigger.teamName = teamDatabase;
                 break;
             }
         }
@@ -28,7 +35,7 @@ async function recycleTrigger(triggerID: string) {
     } catch (error) {
         return false;
     }
-
+    
     const index = trackedTriggers.findIndex(_trigger => _trigger.id == triggerID);
 
     // Upsert if added or modified, delete if deleted
@@ -44,7 +51,9 @@ async function recycleTrigger(triggerID: string) {
     } else {
         if (index > -1) {
             // Remove trigger
+            trackedTriggers[index].deleteRoute();
             trackedTriggers.splice(index, 1);
+            return true;
         }
     }
 
