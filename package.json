@@ -4,6 +4,7 @@
 	"description": "An easier-to-use API creation platform as a service.",
 	"main": "src/app.js",
 	"scripts": {
+		"copyfiles": "copyfiles -u 1 \"src/**/*\" -e \"src/**/*.ts\" dist",
 		"build": "copyfiles -u 1 \"src/**/*\" -e \"src/**/*.ts\" dist",
 		"postbuild": "tsc"
 	},

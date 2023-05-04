@@ -1,11 +1,15 @@
-<ul id="module-list">
-    {{#each cascade.modules}}
-    <li onclick="selectModule(this)" module-id="{{this.id}}">
-        <img src="/media/images/module-icons/{{getModuleImageName this.moduleType}}"/>
-        <p>{{getModuleTidyName this.moduleType}}</p>
-        <button onclick="moveModule('up', this)">Up</button>
-        <button onclick="moveModule('down', this)">Down</button>
-    </li>
-    {{/each}}
-</ul>
-<button onclick="addModule()">Add module</button>
+{{!-- <div id="module-list-container"> --}}
+    <ul id="module-list">
+        {{#each cascade.modules}}
+        <li onclick="selectModule(this)" class="module" module-id="{{this.id}}">
+            <img src="/media/images/module-icons/{{getModuleImageName this.moduleType}}"/>
+            <p>{{getModuleTidyName this.moduleType}}</p>
+            <div class="module-button-container">
+                <button onclick="moveModule('up', this)"><img src="/media/images/fontawesome/arrow-up-solid.svg"/></button>
+                <button onclick="moveModule('down', this)"><img src="/media/images/fontawesome/arrow-down-solid.svg"/></button>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    <button onclick="addModule()" id="add-module"><img src="/media/images/fontawesome/plus-solid.svg"/></button>
+{{!-- </div> --}}
