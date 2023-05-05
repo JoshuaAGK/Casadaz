@@ -3,9 +3,23 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <script src="https://unpkg.com/axios@1.0/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/styles/colours.css">
+        <link rel="stylesheet" href="/styles/fonts.css">
+        <link rel="stylesheet" href="/styles/main.css">
+
+        <script src="/scripts/moduleContext.js"></script>
+        <script src="/scripts/main.js"></script>
     </head>
     <body>
-        <h1>This is the main page for cascade {{cascadeID}}</h1>
-        {{{body}}}
+        <div id="editor-top-bar">
+            <img id="logo" src="/media/images/casadaz.png"/>
+            <p id="page-name">Triggers</p>
+        </div>
+        <div id="editor-container">
+            <div id="left-container">
+                <div id="cascade-container"></div>
+            </div>
+        </div>
     </body>
 </html>

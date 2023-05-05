@@ -194,9 +194,19 @@ router.post("/updatecascade/:cascadeID", async (req: any, res: any) => {
     res.send("ok");
 })
 
+
 router.get("/uuid", async (req: any, res: any) => {
     res.send(uuidv4());
 })
+
+router.get("/triggers-list", async (req: any, res: any) => {  
+    const triggersCollection = await client.db("Team1").collection("triggers");
+    const triggers = await triggersCollection.find().toArray();
+
+    console.log(triggers);
+
+    res.json(triggers);
+});
 
 
 router.use("/recycle/cascade/:cascadeID", async (req: any, res: any) => {
