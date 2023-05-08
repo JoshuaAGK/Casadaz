@@ -160,7 +160,7 @@ li img {
     justify-content: space-between;
 }
 
-#add-module, #add-trigger {
+#add-module, #add-trigger, #dashboard-add-cascade, #dashboard-add-trigger {
     display: flex;
     align-items: center;
     padding: 0.1rem;
@@ -175,12 +175,21 @@ li img {
     margin-bottom: 1rem;
 }
 
-#add-module img, #add-trigger img {
+#add-module img, #add-trigger img, #dashboard-add-cascade img, #dashboard-add-trigger img {
     height: 1rem;
     width: 1rem;
 }
 
-#save-cascade {
+#cascade-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    height: calc(100% - 2rem);
+    gap: 1rem;
+}
+
+#cascade-buttons button {
     display: flex;
     align-items: center;
     padding: 0.25rem;
@@ -190,10 +199,10 @@ li img {
     justify-content: center;
     font-weight: bold;
     margin-left: auto;
-    height: calc(100% - 2rem);
+    height: 100%;
 }
 
-#save-cascade img {
+#cascade-buttons button img {
     height: 1rem;
     width: 1rem;
     margin-right: 0.15rem;

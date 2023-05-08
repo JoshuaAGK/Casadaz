@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <script src="https://unpkg.com/axios@1.0/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/styles/colours.css">
+        <link rel="stylesheet" href="/styles/fonts.css">
+        <link rel="stylesheet" href="/styles/main.css">
+        <title>Casadaz</title>
+        <link rel="icon" type="image/png" href="/media/images/casadaz.png">
+        <script src="/scripts/moduleContext.js"></script>
+        <script src="/scripts/main.js"></script>
+        <script>
+            let triggersList = [];
+            let cascadesList = [];
+
+            window.addEventListener('load', async () => {
+                const origin = window.location.origin;
+                let response = await axios.get(`${origin}/triggers-list`);
+                triggersList = response.data;
+                response = await axios.get(`${origin}/cascades-list`);
+                cascadesList = response.data;
+
+                document.querySelector("#dashboard-cascade-text").innerHTML = `Your team has ${cascadesList.length} cascade${cascadesList.length == 1 ? "" : "s"}${cascadesList.length < 1 ? "." : ":"}`;
+                document.querySelector("#dashboard-trigger-text").innerHTML = `Your team has ${triggersList.length} trigger${triggersList.length == 1 ? "" : "s"}${cascadesList.length < 1 ? "." : ":"}`;
+
+
+                console.log(triggersList);
+                console.log(cascadesList);
+
+                const cascadesListElement = document.querySelector("#dashboard-cascade-list");
+
+                for (const cascade of cascadesList) {
+                    const cascadeListItem = document.createElement("li");
+                    cascadeListItem.innerHTML = `<a href="/cascade/${cascade._id}">${cascade._id}</a>`;
+                    cascadesListElement.appendChild(cascadeListItem);
+                }
+
+                if (triggersList.length >= 1) {
+                    document.querySelector("#dashboard-triggers").innerHTML += `<a href="/triggers">View triggers</a>`;
+                }
+            });
+
+            async function addCascade() {
+                const result = await axios.post(`/addcascade`, {
+                    cascade: {
+                        modules: []
+                    },
+                    team: "Team1",
+                    uid: "63f36628992b9f7c647d7d02",
+                })
+
+                window.location.href = `/cascade/${result.data.insertedID}`;
+            }
+
+            async function addTrigger() {
+                const result = await axios.post(`/addtrigger`, {
+                    trigger: {
+                        type: "http",
+                        endpoint: "",
+                        cascades: [],
+                        method: "get"
+                    },
+                    team: "Team1",
+                    uid: "63f36628992b9f7c647d7d02",
+                })
+
+                window.location.href = "/triggers";
+            }
+
+        </script>
+        <style>
+            #dashboard-wrapper {
+                height: calc(100vh - 64px);
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            #dashboard-wrapper > div {
+                min-height: 200px;
+                width: 300px;
+                background-color: var(--gray-700);
+                border: 1px solid var(--gray-600);
+                padding: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #dashboard-wrapper button {
+                position: absolute;
+                margin-bottom: 0.5rem;
+                margin-top: 0.5rem;
+                bottom: 0;
+            }
+
+            #dashboard-cascade-list {
+                margin-bottom: 2.5rem;
+            }
+
+            #dashboard-cascades li {
+                min-height: 0;
+                background-color: #FFFFFF;
+                display: flex;
+                justify-content: center;
+            }
+
+            #dashboard-cascades li a {
+                color: #000000;
+                text-decoration: none;
+                font-family: "Noto-Sans-Mono";
+                padding: 0.25rem;
+            }
+
+            #dashboard-triggers a {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="editor-top-bar">
+            <img id="logo" src="/media/images/casadaz.png"/>
+            <p id="page-name">Casadaz</p>
+        </div>
+        <div id="dashboard-wrapper">
+            <div id="dashboard-cascades">
+                <h2>Cascades</h2>
+                <p id="dashboard-cascade-text"></p>
+                <ol id="dashboard-cascade-list"></ol>
+                <button onclick="addCascade()" id="dashboard-add-cascade"><img src="/media/images/fontawesome/plus-solid.svg"></button>
+            </div>
+            <div id="dashboard-triggers">
+                <h2>Triggers</h2>
+                <p id="dashboard-trigger-text"></p>
+                
+                <button onclick="addTrigger()" id="dashboard-add-trigger"><img src="/media/images/fontawesome/plus-solid.svg"></button>
+                {{!-- <a href="/triggers">View triggers</a> --}}
+            </div>
+        </div>
+    </body>
+</html>

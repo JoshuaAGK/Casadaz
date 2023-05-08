@@ -42,6 +42,10 @@ app.get("/triggers", async (req: any, res: any) => {
     res.render("triggers", { layout: false });
 });
 
+app.get("/", async (req: any, res: any) => {
+    res.render("index", { layout: false });
+});
+
 app.get("/moduletidyname/:modulename", async (req: any, res: any) => {
     res.send(getModuleTidyName(req.params.modulename));
 });

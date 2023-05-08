@@ -140,13 +140,16 @@ function replaceValue(obj, key, newValue) {
 }
 
 async function saveCascade() {
-    let test = await axios.post(`/updatecascade/${cascadeID}`, {
+    await axios.post(`/updatecascade/${cascadeID}`, {
         uid: "63f36628992b9f7c647d7d02",
         team: "Team1",
         cascade: localModel
     })
+}
 
-    console.log(test);
+async function deleteCascade() {
+    await axios.post(`/deletecascade/${cascadeID}`)
+    window.location.href = `/`;
 }
 
 

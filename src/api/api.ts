@@ -59,6 +59,19 @@ router.post("/deletetrigger/:triggerID", async (req: any, res: any) => {
     res.send(deleteResult);
 })
 
+router.post("/deletecascade/:cascadeID", async (req: any, res: any) => {
+    console.log("Trying to delete cascade");
+
+    console.log(new ObjectId(req.params.cascadeID));
+    
+    const cascadesCollection = client.db("Team1").collection("cascades");
+    const deleteResult = await cascadesCollection.deleteOne({ _id: new ObjectId(req.params.cascadeID) });
+
+    console.log(deleteResult);
+
+    res.send(deleteResult);
+})
+
 router.post("/addcascade", async (req: any, res: any) => {
     const uid = req.body.uid;
     const teamName = req.body.team;
@@ -86,9 +99,8 @@ router.post("/addcascade", async (req: any, res: any) => {
 
     cascadeObject.id = insertResult.insertedId.toString();
     trackedCascades.push(cascadeObject);
-    console.log(trackedCascades);
 
-    res.send("ok");
+    res.send(insertResult);
 })
 
 router.get("/readcascade/:cascadeID", async (req: any, res: any) => {
@@ -216,6 +228,12 @@ router.get("/triggers-list", async (req: any, res: any) => {
     const triggersCollection = await client.db("Team1").collection("triggers");
     const triggers = await triggersCollection.find().toArray();
     res.json(triggers);
+});
+
+router.get("/cascades-list", async (req: any, res: any) => {  
+    const cascadesCollection = await client.db("Team1").collection("cascades");
+    const cascades = await cascadesCollection.find().toArray();
+    res.json(cascades);
 });
 
 router.post("/updatetrigger/:triggerID", async (req: any, res: any) => {  

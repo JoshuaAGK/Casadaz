@@ -28,7 +28,10 @@
         <div id="editor-top-bar">
             <img id="logo" src="/media/images/casadaz.png"/>
             <p id="cascade-id">Cascade {{cascadeID}}</p>
-            <button onclick="saveCascade()" id="save-cascade"><img src="/media/images/fontawesome/floppy-disk-solid.svg"/>Save&nbsp;Cascade</button>
+            <div id="cascade-buttons">
+                <button onclick="deleteCascade()" id="delete-cascade"><img src="/media/images/fontawesome/trash-can-solid.svg"/>Delete&nbsp;Cascade</button>
+                <button onclick="saveCascade()" id="save-cascade"><img src="/media/images/fontawesome/floppy-disk-solid.svg"/>Save&nbsp;Cascade</button>
+            </div>
         </div>
         <div id="editor-container">
             <div id="left-container">
