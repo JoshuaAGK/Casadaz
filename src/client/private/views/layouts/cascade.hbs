@@ -7,9 +7,22 @@
         <link rel="stylesheet" href="/styles/colours.css">
         <link rel="stylesheet" href="/styles/fonts.css">
         <link rel="stylesheet" href="/styles/main.css">
-
         <script src="/scripts/moduleContext.js"></script>
         <script src="/scripts/main.js"></script>
+        <script>
+            window.addEventListener('load', async () => {
+                const origin = window.location.origin;
+
+                cascadeID = window.location.pathname.split("/")[2];
+
+                const cascadeContent = await axios.get(origin + `/cascade-content/${cascadeID}`);
+                const cascadeModules = await axios.get(origin + `/cascade-modules/${cascadeID}`);
+                localModel = cascadeModules.data;
+                //console.log(localModel);
+
+                document.querySelector("#cascade-container").innerHTML = cascadeContent.data;
+            });
+        </script>
     </head>
     <body>
         <div id="editor-top-bar">

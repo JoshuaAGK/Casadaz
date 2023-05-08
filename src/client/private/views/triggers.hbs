@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <script src="https://unpkg.com/axios@1.0/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/styles/colours.css">
+        <link rel="stylesheet" href="/styles/fonts.css">
+        <link rel="stylesheet" href="/styles/main.css">
+
+        <script src="/scripts/moduleContext.js"></script>
+        <script src="/scripts/main.js"></script>
+        <script>
+
+            window.addEventListener('load', async () => {
+                const origin = window.location.origin;
+                const content = await axios.get(`${origin}/triggers-list`);
+                console.log(content.data);
+                buildTriggersList(content.data);
+            });
+
+            function buildTriggersList(triggerData) {
+                const triggerList = document.querySelector("#trigger-list");
+
+                for (const trigger of triggerData) {
+                    addTrigger(trigger);
+                }
+            }
+
+            function addTrigger(trigger = { type: null, method: null, _id: null, cascades: [] }) {
+                const triggerList = document.querySelector("#trigger-list");
+                const triggerListItem = document.createElement("li");
+                triggerListItem.classList.add("trigger");
+
+                if (trigger._id) {
+                    triggerListItem.id = trigger._id;
+                }
+
+
+                function buildCascadesList(cascades) {
+                    let innerHTML = "";
+                    for (i in cascades) {
+                        innerHTML += cascades[i];
+                        innerHTML += i >= cascades.length - 1 ? "" : ",\n";
+                    }
+                    return innerHTML;
+                }
+
+                console.log(trigger);
+
+                /* html */
+                triggerListItem.innerHTML += `<img class="trigger-img" src="/media/images/trigger-icons/http.png"/>
+                <div class="trigger-type">
+                    <label for="trigger-type">Trigger Type</label>
+                    <select name="trigger-type">
+                        <option value="http" ${trigger.type === "http" ? "selected" : null}>HTTP</option>
+                    </select>
+                </div>
+                <div class="trigger-endpoint">
+                    <label for="trigger-endpoint">Endpoint</label>
+                    <input name="trigger-endpoint" placeholder="/" value="${trigger.endpoint ?? ""}">
+                </div>
+                <div class="trigger-method">
+                    <label for="trigger-method">Method</label>
+                    <select name="trigger-method">
+                        <option value="get" ${trigger.method === "get" ? "selected" : null}>GET</option>
+                        <option value="post" ${trigger.method === "post" ? "selected" : null}>POST</option>
+                    </select>
+                </div>
+                <div class="trigger-cascades">
+                    <label for="trigger-cascades">Cascades</label>
+                    <textarea name="trigger-cascades">${buildCascadesList(trigger.cascades)}</textarea>
+                </div>
+                <p class="trigger-id">ID:&nbsp;<b>${trigger._id ?? ""}</b></p>
+                <div class="trigger-buttons">
+                    <button onclick="upsertTrigger(this)"><img src="/media/images/fontawesome/floppy-disk-solid.svg"/>Save&nbsp;Trigger</button>
+                    <button onclick="deleteTrigger(this)"><img src="/media/images/fontawesome/trash-can-solid.svg"/>Delete&nbsp;Trigger</button>
+                </div>`
+
+                triggerList.appendChild(triggerListItem);
+            }
+
+            async function upsertTrigger(that) {
+                const triggerListItem = that.parentElement.parentElement;
+
+                let trigger = {
+                    _id: triggerListItem.id ?? null,
+                    type: triggerListItem.querySelector(".trigger-type").querySelector("select").value,
+                    endpoint: triggerListItem.querySelector(".trigger-endpoint").querySelector("input").value,
+                    method: triggerListItem.querySelector(".trigger-method").querySelector("select").value,
+                    cascades: triggerListItem.querySelector(".trigger-cascades").querySelector("textarea").value.split(",\n")
+                }
+
+                if (trigger._id) {
+                    // Update trigger by ID
+                    await axios.post(`/updatetrigger/${trigger._id}`, {
+                        trigger: trigger
+                    })
+                } else {
+                    // Insert new trigger
+                    delete trigger._id;
+                    const result = await axios.post(`/addtrigger`, {
+                        trigger: trigger,
+                        team: "Team1",
+                        uid: "63f36628992b9f7c647d7d02",
+                    })
+                    const insertedId = result.data.insertedId;
+                    triggerListItem.id = insertedId;
+                    triggerListItem.querySelector(".trigger-id").querySelector("b").innerHTML = insertedId;
+                }
+            }
+
+            async function deleteTrigger(that) {
+                const triggerListItem = that.parentElement.parentElement;
+
+                let triggerID = triggerListItem.id ?? null
+
+                if (triggerID) {
+                    // Delete trigger from MongoDB
+                    await axios.post(`/deletetrigger/${triggerID}`);
+                }
+
+                triggerListItem.remove();
+            }
+        </script>
+
+        <style>
+
+            #trigger-container {
+                width: 600px;
+            }
+
+            #trigger-container li {
+                display: grid;
+                grid-template-columns: 2rem auto auto auto auto auto auto;
+                grid-template-rows: 2fr auto 1fr;
+                gap: 0.25rem 0.5rem;
+            }
+
+            
+
+            #trigger-container li > * {
+                display: flex;
+                align-items: center;
+            }
+
+            #trigger-container input, #trigger-container select, #trigger-container select option, #trigger-container textarea {
+                font-family: "Noto-Sans-Mono";
+                padding: 0.25rem;
+                color: #000000;
+            }
+
+            #trigger-container label {
+                font-size: 16px;
+                font-weight: 300;
+                margin-bottom: 0.2rem;
+            }
+
+            #trigger-container textarea {
+                width: 100%;
+                resize: vertical;
+                height: 64px;
+            }
+
+            #trigger-container li > div {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #trigger-container .trigger-img {
+                grid-area: 1 / 1 / 2 / 2;
+                width: 2rem;
+                height: 2rem;
+            }
+
+            #trigger-container .trigger-type {
+                grid-area: 1 / 2 / 2 / 4;
+            }
+
+            #trigger-container .trigger-endpoint {
+                grid-area: 1 / 4 / 2 / 6;
+            }
+
+            #trigger-container .trigger-method {
+                grid-area: 1 / 6 / 2 / 8;
+            }
+
+            #trigger-container .trigger-id {
+                grid-area: 3 / 1 / 4 / 5;
+            }
+
+            #trigger-container .trigger-id {
+                font-size: 14px;
+                font-weight: 300;
+                color: var(--gray-300);
+            }
+
+            #trigger-container .trigger-id b {
+                font-weight: 400;
+                font-family: "Noto-Sans-Mono";
+                color: var(--gray-300);
+            }
+
+            #trigger-container .trigger-cascades {
+                grid-area: 2 / 2 / 3 / 8;
+            }
+
+            .trigger-buttons {
+                grid-area: 3 / 5 / 4 / 8;
+                display: flex;
+                flex-direction: row !important;
+                align-items: flex-end;
+                justify-content: flex-end;
+                gap: 1rem;
+            }
+
+            .trigger-buttons button {
+                display: flex;
+                align-items: center;
+                padding: 0.25rem;
+                border: 1px solid #000000;
+                cursor: pointer;
+                border-radius: 0.5rem;
+                justify-content: center;
+                font-weight: bold;
+                height: calc(64px - 2rem);
+            }
+
+            .trigger-buttons img {
+                height: 1rem;
+                width: 1rem;
+                margin-right: 0.15rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="editor-top-bar">
+            <img id="logo" src="/media/images/casadaz.png"/>
+            <p id="page-name">Triggers</p>
+        </div>
+        <div id="editor-container">
+            <div id="left-container">
+                <div id="trigger-container">
+                    <ul id="trigger-list">
+
+                    </ul>
+                    <button onclick="addTrigger()" id="add-trigger"><img src="/media/images/fontawesome/plus-solid.svg"/></button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

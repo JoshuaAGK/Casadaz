@@ -2,19 +2,6 @@ let localModel = [];
 let cascadeVariables = [];
 let cascadeID = "";
 
-window.addEventListener('load', async () => {
-    const origin = window.location.origin;
-
-    cascadeID = window.location.pathname.split("/")[2];
-
-    const cascadeContent = await axios.get(origin + `/cascade-content/${cascadeID}`);
-    const cascadeModules = await axios.get(origin + `/cascade-modules/${cascadeID}`);
-    localModel = cascadeModules.data;
-    //console.log(localModel);
-
-    document.querySelector("#cascade-container").innerHTML = cascadeContent.data;
-});
-
 class Module {
     _properties = undefined;
 
@@ -161,6 +148,8 @@ async function saveCascade() {
 
     console.log(test);
 }
+
+
 
 async function saveModule() {
     //console.log(selectedModule.properties);

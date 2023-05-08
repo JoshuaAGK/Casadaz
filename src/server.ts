@@ -39,8 +39,7 @@ app.get("/cascade/:cascadeID", async (req: any, res: any) => {
 });
 
 app.get("/triggers", async (req: any, res: any) => {
-    const cascadeID = req.params.cascadeID;
-    res.render("triggers", { layout: "main", cascadeID: cascadeID });
+    res.render("triggers", { layout: false });
 });
 
 app.get("/moduletidyname/:modulename", async (req: any, res: any) => {

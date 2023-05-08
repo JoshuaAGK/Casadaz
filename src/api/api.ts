@@ -43,7 +43,20 @@ router.post("/addtrigger", async (req: any, res: any) => {
     trackedTriggers.push(triggerObject);
     console.log(trackedTriggers);
 
-    res.send("ok");
+    res.send(insertResult);
+})
+
+router.post("/deletetrigger/:triggerID", async (req: any, res: any) => {
+    console.log("Trying to delete trigger");
+
+    console.log(new ObjectId(req.params.triggerID));
+    
+    const triggersCollection = client.db("Team1").collection("triggers");
+    const deleteResult = await triggersCollection.deleteOne({ _id: new ObjectId(req.params.triggerID) });
+
+    console.log(deleteResult);
+
+    res.send(deleteResult);
 })
 
 router.post("/addcascade", async (req: any, res: any) => {
@@ -202,10 +215,27 @@ router.get("/uuid", async (req: any, res: any) => {
 router.get("/triggers-list", async (req: any, res: any) => {  
     const triggersCollection = await client.db("Team1").collection("triggers");
     const triggers = await triggersCollection.find().toArray();
-
-    console.log(triggers);
-
     res.json(triggers);
+});
+
+router.post("/updatetrigger/:triggerID", async (req: any, res: any) => {  
+    const triggersCollection = await client.db("Team1").collection("triggers");
+    const triggerData = req.body.trigger;
+    const triggerID = req.params.triggerID;
+
+    // Updating trigger by ID
+    await triggersCollection.replaceOne({_id: new ObjectId(triggerID)}, {
+        type: triggerData.type,
+        endpoint: triggerData.endpoint,
+        method: triggerData.method,
+        cascades: triggerData.cascades
+    }, (err: any, result: any) => {
+        if (err) throw err;
+    })
+    console.log(`Updated trigger ${triggerID}`);
+    
+
+    res.send("ok");
 });
 
 
