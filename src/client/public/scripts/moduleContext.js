@@ -238,5 +238,60 @@ const moduleContext = {
         format: {
             value: 0,
         }
+    },
+    "mailchimp": {
+        fields: [
+            {
+                name: "listID",
+                label: "List / Audience ID",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "email",
+                label: "Email address",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "firstname",
+                label: "First name",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "lastname",
+                label: "Last name",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "address",
+                label: "Address",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "phone",
+                label: "Phone number",
+                element: "input",
+                type: "text"
+            },
+            {
+                name: "birthday",
+                label: "Birthday",
+                element: "input",
+                type: "text"
+            }
+        ],
+        format: {
+            listID: "",
+            email: "",
+            firstname: "",
+            lastname: "",
+            address: "",
+            phone: "",
+            birthday: ""
+        }
     }
 }

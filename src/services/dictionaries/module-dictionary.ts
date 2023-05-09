@@ -9,6 +9,7 @@ import ModuleCount from "../../classes/modules/module-Count";
 import ModuleWait from "../../classes/modules/module-Wait";
 import ModuleReadFile from "../../classes/modules/module-ReadFile";
 import ModuleFilesToZip from "../../classes/modules/module-FilesToZip";
+import ModuleMailchimp from "../../classes/modules/module-Mailchimp";
 
 import ModuleTidyNames from "../../interfaces/module-tidy-names";
 
@@ -23,7 +24,8 @@ const moduleDictionary = {
     "count": ModuleCount,
     "wait": ModuleWait,
     "readfile": ModuleReadFile,
-    "filestozip": ModuleFilesToZip
+    "filestozip": ModuleFilesToZip,
+    "mailchimp": ModuleMailchimp
 }
 
 const moduleTidyNames: ModuleTidyNames = {
@@ -37,7 +39,8 @@ const moduleTidyNames: ModuleTidyNames = {
     "count": "Count",
     "wait": "Wait",
     "readfile": "Read File",
-    "filestozip": "Files to .zip"
+    "filestozip": "Files to .zip",
+    "mailchimp": "Mailchimp"
 }
 
 export { moduleDictionary, moduleTidyNames };
