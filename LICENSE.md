@@ -8,7 +8,8 @@ Copyright &copy; 2023 Joshua Kelley. All rights reserved.
 Subject to the terms and conditions of this License, the Licensor hereby grants to you, the Licensee, a non-exclusive, non-transferable, and non-sublicensable license to:
 
 - access and use the software and related documentation ("Software") as hosted by the Licensor for personal and commercial purposes;
-- download, use, modify, and run the Software for personal, non-commercial use only.
+- download, use, modify, and run the Software for personal, non-commercial use.
+- download, use, modify, and run the Software for academic evaluation and / or assessment.
 
 
 ## 2. Restrictions
